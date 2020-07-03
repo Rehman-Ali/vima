@@ -16,8 +16,8 @@ const MainHeader = () => {
             <div className="main-navigation">
               <nav>
                 <ul className="main-menu">
-                  <li className="menu-item menu-item-has-children"> <Link to="/" className="text-light-black">Home</Link>
-                    <ul className="sub-menu">
+                  <li className="menu-item"> <Link to="/" className="text-light-black">Home</Link>
+                    {/* <ul className="sub-menu">
                       <li className="menu-item"> <Link to="/">HomePage 1</Link>
                       </li>
                       <li className="menu-item"> <Link to="/homepage-2">Homepage 2</Link>
@@ -28,23 +28,11 @@ const MainHeader = () => {
                       </li>
                       <li className="menu-item"> <Link to="/homepage-5">Homepage 5</Link>
                       </li>
-                    </ul>
+                    </ul> */}
                   </li>
                   <li className="menu-item"> <Link to="/about" className="text-light-black">About</Link>
                   </li>
-                  <li className="menu-item menu-item-has-children"> <Link to="/#" className="text-light-black">Shop</Link>
-                    <ul className="sub-menu">
-                      <li className="menu-item menu-item-has-children"> <Link to="/#">Shop</Link>
-                        <ul className="sub-menu">
-                          <li className="menu-item"> <Link to="/shop-left">Left Sidebar</Link>
-                          </li>
-                          <li className="menu-item"> <Link to="/shop-right">Right Sidebar</Link>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="menu-item"> <Link to="/shop-details">Shop Detail</Link>
-                      </li>
-                    </ul>
+                  <li className="menu-item "> <Link to="/shop-left">Shop</Link>
                   </li>
                   <li className="menu-item menu-item-has-children"> <Link to="/" className="text-light-black">Pages</Link>
                     <ul className="sub-menu">

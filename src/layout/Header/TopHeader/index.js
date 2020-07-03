@@ -9,8 +9,8 @@ const TopHeader = () => {
         <div className="col-md-6">
           <div className="top-left">
             <ul className="top-info">
-              <li><a href="#"><i className="fas fa-phone-alt" /> +000 123 45678</a></li>
-              <li><a href="#"><i className="fas fa-envelope" /> info@example.com</a></li>
+              <li><a href="#"><i className="fas fa-phone-alt" /> +923117880246</a></li>
+              <li><a href="#"><i className="fas fa-envelope" /> hfa@gamil.com</a></li>
             </ul>
           </div>
         </div>
@@ -23,7 +23,7 @@ const TopHeader = () => {
               <li className="list-inline-item"><a href="#"><i className="fab fa-linkedin" /></a> </li>
               <li className="list-inline-item"><a href="#"><i className="fab fa-youtube" /></a> </li>
             </ul>
-            <a href="#" className="top-btn">$ Donate now</a>
+            <a href="#" className="top-btn">Donate now</a>
           </div>
         </div>
       </div>

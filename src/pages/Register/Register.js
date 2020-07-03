@@ -103,7 +103,7 @@ const Register = () => {
                         Create your account
                       </h4>
                       <div className="row">
-                        <div className="col-lg-6 col-md-12 col-sm-6">
+                        {/* <div className="col-12">
                           <div className="form-group">
                             <label className="text-light-white fs-14">
                               First name
@@ -113,16 +113,17 @@ const Register = () => {
                               name="name"
                               value={name}
                               onChange={(e) => onChangeName(e)}
-                              className="form-control form-control-submit"
+                              className="form-control form-control-submit txt"
                               placeholder="First Name"
                               required
+                             
                             />
                             <p style={{ color: "red", paddingLeft: "10px" }}>
                               {nameError}
                             </p>
                           </div>
-                        </div>
-                        <div className="col-lg-6 col-md-12 col-sm-6">
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-12 col-sm-6">
                           <div className="form-group">
                             <label className="text-light-white fs-14">
                               Last name
@@ -134,8 +135,26 @@ const Register = () => {
                               required
                             />
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-12">
+                          <div className="form-group">
+                            <label className="text-light-white fs-14">
+                              Name
+                            </label>
+                            <input
+                              type="text"
+                              name="name"
+                              value={name}
+                              onChange={(e) => onChangeName(e)}
+                            
+                              className="form-control form-control-submit"
+                              placeholder="Enter Your Name"
+                              required
+                            />
+                            <p style={{ color: "red", paddingLeft: "10px" }}>
+                              {emailError}
+                            </p>
+                          </div>
                           <div className="form-group">
                             <label className="text-light-white fs-14">
                               Email
@@ -168,15 +187,17 @@ const Register = () => {
                               placeholder="Password"
                               required
                             />
-                            <p style={{ color: "red", paddingLeft: "10px" }}>
-                              {passwordError}
-                            </p>
-
+                           
                             <div
                               data-name="#password-field"
                               className="fa fa-fw fa-eye field-icon toggle-password"
                             />
+                            
                           </div>
+                          <p style={{ color: "red", paddingLeft: "10px" }}>
+                              {passwordError}
+                            </p>
+
                           <div className="form-group checkbox-reset">
                             <label className="custom-checkbox mb-0">
                               <input type="checkbox" />
@@ -196,7 +217,7 @@ const Register = () => {
                             
                             <span>or</span>
                           </div>
-                          <div className="form-group">
+                          {/* <div className="form-group">
                             <button
                               type="submit"
                               className="btn-second-2 btn-facebook full-width"
@@ -219,7 +240,7 @@ const Register = () => {
                               />
                               Continue with Google
                             </button>
-                          </div>
+                          </div> */}
                           <div className="form-group text-center">
                             <p className="text-light-black mb-0">
                               Have an account? <a href="login">Sign in</a>

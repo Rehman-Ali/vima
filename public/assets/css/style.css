@@ -79,6 +79,10 @@ img.emoji {
 	background: none !important;
 	padding: 0 !important;
 }
+
+::placeholder{
+	color:#718096
+}
 .align-item-center {
 	display: flex;
 	justify-content: center;

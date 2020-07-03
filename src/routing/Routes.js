@@ -22,6 +22,12 @@ import BlogLeft from '../pages/Blog/BlogLeft';
 import BlogDetails from '../pages/Blog/BlogDetails';
 import StoryGrid from '../pages/Story/StoryGrid';
 import StoryDetails from '../pages/Story/StoryDetails';
+import Profile from '../pages/Account/Profile';
+import ChangePassword from '../pages/Account/ChangePassword';
+import DonationRequest from '../pages/Account/DonationRequest';
+import BecomeVolunteer from '../pages/Account/BecomeVolunteer';
+import DonationHistory from '../pages/Account/DonationHistory';
+import AddDonation from '../pages/Account/AddDonation';
 
 // set alert time and position
 const options = {
@@ -51,6 +57,12 @@ const Routes = () => {
       <Route exact path='/blog-details' component={BlogDetails} />
       <Route exact path='/story-grid' component={StoryGrid} />
       <Route exact path='/story-details' component={StoryDetails} />
+      <Route exact path='/Profile' component={Profile} />
+      <Route exact path='/add-donation' component={AddDonation} />
+      <Route exact path='/donation-history' component={DonationHistory} />
+      <Route exact path='/become-volunteer' component={BecomeVolunteer} />
+      <Route exact path='/donation-request' component={DonationRequest} />
+      <Route exact path='/change-password' component={ChangePassword} />
       
 
 
