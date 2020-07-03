@@ -5,7 +5,7 @@ import SideBar from "../SideBar";
 const BecomeVolunteer = () => {
     return (
         <Fragment>
-            {/* Navigation */}
+      {/* Navigation */}
       <MainHeader />
       {/* breadcrumb */}
       <div className="breadcrumb-area">
@@ -17,7 +17,7 @@ const BecomeVolunteer = () => {
               <li>
                 <a href="">Home</a>
               </li>
-              <li className="active">Add Donation</li>
+              <li className="active">Become Volunteer</li>
             </ul>
           </div>
         </div>
@@ -39,7 +39,7 @@ const BecomeVolunteer = () => {
                     <div className="">
                       <form>
                         <h4 className="text-light-black fw-600">
-                          Update your account
+                          Join Our Team
                         </h4>
                         <div className="col-sm-12">
                           <div className="col-12">
@@ -90,7 +90,7 @@ const BecomeVolunteer = () => {
                               <div className="col-md-6 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Name
+                                    Phone no
                                   </label>
                                   <input
                                     type="text"
@@ -99,7 +99,7 @@ const BecomeVolunteer = () => {
                                     //   onChange={(e) => onChangeName(e)}
 
                                     className="form-control form-control-submit"
-                                    placeholder="Enter Your Name"
+                                    placeholder="Enter Your Phone no"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -110,7 +110,7 @@ const BecomeVolunteer = () => {
                               <div className="col-md-6 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Email
+                                    National ID card no
                                   </label>
                                   <input
                                     type="email"
@@ -118,7 +118,7 @@ const BecomeVolunteer = () => {
                                     //   value={email}
                                     //   onChange={(e) => onChangeEmail(e)}
                                     className="form-control form-control-submit"
-                                    placeholder="Email I'd"
+                                    placeholder="Enter your CNIC no"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -133,7 +133,7 @@ const BecomeVolunteer = () => {
                               <div className="col-md-4 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Name
+                                   Country
                                   </label>
                                   <input
                                     type="text"
@@ -142,7 +142,7 @@ const BecomeVolunteer = () => {
                                     //   onChange={(e) => onChangeName(e)}
 
                                     className="form-control form-control-submit"
-                                    placeholder="Enter Your Name"
+                                    placeholder="Enter Your Country"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -153,15 +153,15 @@ const BecomeVolunteer = () => {
                               <div className="col-md-4 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Email
+                                    State
                                   </label>
                                   <input
-                                    type="email"
+                                    type="text"
                                     //   name="email"
                                     //   value={email}
                                     //   onChange={(e) => onChangeEmail(e)}
                                     className="form-control form-control-submit"
-                                    placeholder="Email I'd"
+                                    placeholder="Enter your state"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -172,15 +172,15 @@ const BecomeVolunteer = () => {
                               <div className="col-md-4 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Email
+                                    City
                                   </label>
                                   <input
-                                    type="email"
+                                    type="text"
                                     //   name="email"
                                     //   value={email}
                                     //   onChange={(e) => onChangeEmail(e)}
                                     className="form-control form-control-submit"
-                                    placeholder="Email I'd"
+                                    placeholder="Enter your city"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -207,7 +207,7 @@ const BecomeVolunteer = () => {
                               />
                             </div>
                           </div>
-
+{/* 
                           <div className="col-12">
                             <div className="form-group">
                               <label className="text-light-white fs-14">
@@ -226,9 +226,9 @@ const BecomeVolunteer = () => {
                               {/* <p style={{ color: "red", paddingLeft: "10px" }}>
                               {emailError}
                             </p> */}
-                            </div>
-                          </div>
-                          <div className="col-12">
+                            {/* </div>
+                          </div> */} 
+                          {/* <div className="col-12">
                             <div className="form-group">
                               <label className="text-light-white fs-14">
                                 Attach File
@@ -246,8 +246,8 @@ const BecomeVolunteer = () => {
                               {/* <p style={{ color: "red", paddingLeft: "10px" }}>
                               {emailError}
                             </p> */}
-                            </div>
-                          </div>
+                            {/* </div>
+                          </div> */} 
                           <div className="col-4">
                             <div className="form-group">
                               <button
@@ -628,7 +628,6 @@ const BecomeVolunteer = () => {
           </div>
         </div>
       </div>
-  
         </Fragment>
     )
 }

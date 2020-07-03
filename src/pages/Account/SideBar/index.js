@@ -12,7 +12,7 @@ const SideBar = () => {
                 </li>
                 <li className="pb-xl-20 u-line mb-xl-20"> <Link to="/donation-history" className="text-light-black fw-600">Donation History</Link>
                 </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <Link to="/become-voulnteer" className="text-light-black fw-600">Become Volunteer </Link>
+                <li className="pb-xl-20 u-line mb-xl-20"> <Link to="/become-volunteer" className="text-light-black fw-600">Become Volunteer </Link>
                 </li>
                 <li className="pb-xl-20 u-line mb-xl-20"> <Link to="/donation-request" className="text-light-black fw-600">Request for Donation</Link>
                 </li>

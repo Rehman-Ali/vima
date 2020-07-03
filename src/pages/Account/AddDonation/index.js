@@ -39,7 +39,7 @@ const AddDonation = () => {
                     <div className="">
                       <form>
                         <h4 className="text-light-black fw-600">
-                          Update your account
+                        Add Donation
                         </h4>
                         <div className="col-sm-12">
                           <div className="col-12">
@@ -90,7 +90,7 @@ const AddDonation = () => {
                               <div className="col-md-6 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Name
+                                    Phone No
                                   </label>
                                   <input
                                     type="text"
@@ -99,7 +99,7 @@ const AddDonation = () => {
                                     //   onChange={(e) => onChangeName(e)}
 
                                     className="form-control form-control-submit"
-                                    placeholder="Enter Your Name"
+                                    placeholder="Enter Your Phone"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -110,7 +110,7 @@ const AddDonation = () => {
                               <div className="col-md-6 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Email
+                                   Land line no
                                   </label>
                                   <input
                                     type="email"
@@ -133,7 +133,7 @@ const AddDonation = () => {
                               <div className="col-md-4 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Name
+                                    Country
                                   </label>
                                   <input
                                     type="text"
@@ -142,7 +142,7 @@ const AddDonation = () => {
                                     //   onChange={(e) => onChangeName(e)}
 
                                     className="form-control form-control-submit"
-                                    placeholder="Enter Your Name"
+                                    placeholder="Enter Your Country"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -153,15 +153,15 @@ const AddDonation = () => {
                               <div className="col-md-4 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Email
+                                    State
                                   </label>
                                   <input
-                                    type="email"
+                                    type="text"
                                     //   name="email"
                                     //   value={email}
                                     //   onChange={(e) => onChangeEmail(e)}
                                     className="form-control form-control-submit"
-                                    placeholder="Email I'd"
+                                    placeholder="Enter Your State"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
@@ -172,15 +172,15 @@ const AddDonation = () => {
                               <div className="col-md-4 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                    Email
+                                    City
                                   </label>
                                   <input
-                                    type="email"
+                                    type="text"
                                     //   name="email"
                                     //   value={email}
                                     //   onChange={(e) => onChangeEmail(e)}
                                     className="form-control form-control-submit"
-                                    placeholder="Email I'd"
+                                    placeholder="Enter Your"
                                     required
                                   />
                                   {/* <p style={{ color: "red", paddingLeft: "10px" }}>
