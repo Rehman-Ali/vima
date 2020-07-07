@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react'
 import {Link} from 'react-router-dom';
 const MainHeader = () => {
-    return (
+ const user = JSON.parse(localStorage.getItem('user'))
+ 
+  return (
         <Fragment>
              <header className="header">
     <div className="container-fluid custom-container">
@@ -84,8 +86,14 @@ const MainHeader = () => {
                   </Link>
                 </li>
                 <li className="user-details">
-                  <Link to="/#"> <i className="pe-7s-user" /> <span>Hi, Kate</span>
+                 {user !== undefined && user !== null ?
+                  <Link to="/profile"> <i className="pe-7s-user" /> <span>Hi, Kate</span>
                   </Link>
+                    : 
+                    <Link to="/login"> <i className="pe-7s-lock" /> <span>Login/Register</span>
+                  </Link>
+                }
+                  
                 </li>
                 <li className="wishlist"> <Link to="/#" className="text-dark-red"><i className="pe-7s-bell" /></Link>
                   <span className="cart">3</span>
