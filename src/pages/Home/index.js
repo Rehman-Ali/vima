@@ -2,13 +2,72 @@ import React, { Fragment, useEffect } from 'react'
 import {loadHeaderScript, loadHeaderCSS} from '../../components/utils/LoadScript';
 import TopHeader from '../../layout/Header/TopHeader';
 import MainHeader from '../../layout/Header/MainHeader';
+import { useDispatch, useSelector } from "react-redux";
+import { SERVER_URL } from "../../components/utils/config";
+import {ALL_NEWS_FAIL, ALL_NEWS_SUCCESS, ALL_COMPAIGN_SUCCESS, ALL_COMPAIGN_FAIL} from "../../actions/types";
+
 const Home = () => {
-    
+
+  
+  const allnews = useSelector((state) => state.news.allNews);
+  const allCompaign = useSelector((state) => state.compaign.allCompaign);
+  const dispatch = useDispatch();
     useEffect(() =>{
         loadHeaderScript();
         // loadHeaderCSS();
     },[])
     
+
+
+
+    useEffect(() => {
+     
+          //all news
+          fetch(`${SERVER_URL}api/news`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              // "X-Auth-Token": user.token,
+            },
+          })
+            .then((response) => response.json())
+            .then((json) => {
+              dispatch({
+                type: ALL_NEWS_SUCCESS,
+                payload: json.news,
+              });
+            })
+            .catch((error) => {
+              dispatch({
+                type: ALL_NEWS_FAIL,
+              });
+            });
+            
+            //all  compaign
+          fetch(`${SERVER_URL}api/compaign`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              // "X-Auth-Token": user.token,
+            },
+          })
+            .then((response) => response.json())
+            .then((json) => {
+              dispatch({
+                type: ALL_COMPAIGN_SUCCESS,
+                payload: json.compaign,
+              });
+            })
+            .catch((error) => {
+              dispatch({
+                type: ALL_COMPAIGN_FAIL,
+              });
+            });
+    }, []);
+  
+
     return (
         <Fragment>
    
@@ -970,15 +1029,15 @@ const Home = () => {
             <h3 className="text-light-black header-title title">Our Donation Campaigns</h3>
           </div>
         </div>
-        <div className="col-xl-4 col-lg-6 col-md-6">
-          <div className="sa-causes-single sa-causes-single-2">
+        {allCompaign.length > 0 ? allCompaign.map((item, index) => <div className="col-xl-4 col-lg-6 col-md-6">
+          <div className="sa-causes-single sa-causes-single-2" key={index}>
             <div className="causes-details-wrap">
               <div className="causes-details">
-                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
+             <h5><a href="#">{item.category}</a></h5>
+                <p>{item.title}</p>
                 <div className="entry-thumb mtmb-spacing">
                   <img src="assets/img/donation/article1.jpg" alt="img" className="img-fluid full-width" />
-                  <div className="dontaion-category"><a href="#">Education</a></div>
+                  <div className="dontaion-category"><a href="#">{item.category}</a></div>
                 </div>
                 <div className="cause-progress">
                   <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
@@ -988,11 +1047,11 @@ const Home = () => {
                 <div className="causes-amount">
                   <div className="left">
                     <p>Raised</p>
-                    <span>$4585.00</span>
+            <span>Rs. {item.raised_amount}</span>
                   </div>
                   <div className="right">
                     <p>Goal</p>
-                    <span>$4585.00</span>
+             <span>Rs. {item.goal_amount}</span>
                   </div>
                 </div>
               </div>
@@ -1002,70 +1061,103 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-4 col-lg-6 col-md-6">
-          <div className="sa-causes-single sa-causes-single-2">
-            <div className="causes-details-wrap">
-              <div className="causes-details">
-                <h5><a href="#">Hunger &amp; Nurition</a></h5>
-                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                <div className="entry-thumb mtmb-spacing">
-                  <img src="assets/img/donation/article3.jpg" alt="img" className="img-fluid full-width" />
-                  <div className="dontaion-category"><a href="#">Health</a></div>
-                </div>
-                <div className="cause-progress">
-                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                    <span>17%</span>
-                  </div>
-                </div>
-                <div className="causes-amount">
-                  <div className="left">
-                    <p>Raised</p>
-                    <span>$4585.00</span>
-                  </div>
-                  <div className="right">
-                    <p>Goal</p>
-                    <span>$4585.00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="btn-area text-center">
-              <a className="btn-donation text-btn" href="#">donate now</a>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-4 col-lg-6 col-md-6">
-          <div className="sa-causes-single sa-causes-single-2">
-            <div className="causes-details-wrap">
-              <div className="causes-details">
-                <h5><a href="#">Water Delivery</a></h5>
-                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                <div className="entry-thumb mtmb-spacing">
-                  <img src="assets/img/donation/article2.jpg" alt="img" className="img-fluid full-width" />
-                  <div className="dontaion-category"><a href="#">Hygine</a></div>
-                </div>
-                <div className="cause-progress">
-                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                    <span>17%</span>
-                  </div>
-                </div>
-                <div className="causes-amount">
-                  <div className="left">
-                    <p>Raised</p>
-                    <span>$4585.00</span>
-                  </div>
-                  <div className="right">
-                    <p>Goal</p>
-                    <span>$4585.00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="btn-area text-center">
-              <a className="btn-donation text-btn" href="#">donate now</a>
-            </div>
-          </div>
-        </div>
+        ): null}
+       {/* // <div className="col-xl-4 col-lg-6 col-md-6">
+        //   <div className="sa-causes-single sa-causes-single-2">
+        //     <div className="causes-details-wrap">
+        //       <div className="causes-details">
+        //         <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
+        //         <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
+        //         <div className="entry-thumb mtmb-spacing">
+        //           <img src="assets/img/donation/article1.jpg" alt="img" className="img-fluid full-width" />
+        //           <div className="dontaion-category"><a href="#">Education</a></div>
+        //         </div>
+        //         <div className="cause-progress">
+        //           <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
+        //             <span>17%</span>
+        //           </div>
+        //         </div>
+        //         <div className="causes-amount">
+        //           <div className="left">
+        //             <p>Raised</p>
+        //             <span>$4585.00</span>
+        //           </div>
+        //           <div className="right">
+        //             <p>Goal</p>
+        //             <span>$4585.00</span>
+        //           </div>
+        //         </div>
+        //       </div>
+        //     </div>
+        //     <div className="btn-area text-center">
+        //       <a className="btn-donation text-btn" href="#">donate now</a>
+        //     </div>
+        //   </div>
+        // </div>
+        // <div className="col-xl-4 col-lg-6 col-md-6">
+        //   <div className="sa-causes-single sa-causes-single-2">
+        //     <div className="causes-details-wrap">
+        //       <div className="causes-details">
+        //         <h5><a href="#">Hunger &amp; Nurition</a></h5>
+        //         <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
+        //         <div className="entry-thumb mtmb-spacing">
+        //           <img src="assets/img/donation/article3.jpg" alt="img" className="img-fluid full-width" />
+        //           <div className="dontaion-category"><a href="#">Health</a></div>
+        //         </div>
+        //         <div className="cause-progress">
+        //           <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
+        //             <span>17%</span>
+        //           </div>
+        //         </div>
+        //         <div className="causes-amount">
+        //           <div className="left">
+        //             <p>Raised</p>
+        //             <span>$4585.00</span>
+        //           </div>
+        //           <div className="right">
+        //             <p>Goal</p>
+        //             <span>$4585.00</span>
+        //           </div>
+        //         </div>
+        //       </div>
+        //     </div>
+        //     <div className="btn-area text-center">
+        //       <a className="btn-donation text-btn" href="#">donate now</a>
+        //     </div>
+        //   </div>
+        // </div>
+        // <div v className="col-xl-4 col-lg-6 col-md-6">
+        //   <div className="sa-causes-single sa-causes-single-2">
+        //     <div className="causes-details-wrap">
+        //       <div className="causes-details">
+        //         <h5><a href="#">Water Delivery</a></h5>
+        //         <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
+        //         <div className="entry-thumb mtmb-spacing">
+        //           <img src="assets/img/donation/article2.jpg" alt="img" className="img-fluid full-width" />
+        //           <div className="dontaion-category"><a href="#">Hygine</a></div>
+        //         </div>
+        //         <div className="cause-progress">
+        //           <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
+        //             <span>17%</span>
+        //           </div>
+        //         </div>
+        //         <div className="causes-amount">
+        //           <div className="left">
+        //             <p>Raised</p>
+        //             <span>$4585.00</span>
+        //           </div>
+        //           <div className="right">
+        //             <p>Goal</p>
+        //             <span>$4585.00</span>
+        //           </div>
+        //         </div>
+        //       </div>
+        //     </div>
+        //     <div className="btn-area text-center">
+        //       <a className="btn-donation text-btn" href="#">donate now</a>
+        //     </div>
+        //   </div>
+        // </div> */}
       </div>
     </div>
   </section>
@@ -1439,25 +1531,28 @@ const Home = () => {
             <span className="fs-14"><a href="#.html">See All</a></span>
           </div>
         </div>
-        <div className="col-xl-3 col-lg-3 col-md-6">
-          <article className="blog-item blog-item-box">
-            <div className="blog-item-img">
-              <img className="blog-img" src="assets/img/blog/blog1.jpg" alt="img" />
-              <ul className="blog-item-badge">
-                <li><a href="#">Water</a> </li>
-                <li><a href="#">Health</a></li>
-              </ul>
-            </div>
-            <div className="blog-item-content">
-              <h5 className="blog-item-title"><a href="#">Save the Children's Role in Fight Against Malnutrition Hailed</a></h5>
-              <p>Sharksucker sea toad candiru rocket danio tilefish stingray deepwater stingray Sacramento splittail canthigaster</p>
-              <div className="blog-item-details">
-                <span className="blog-item-date"><i className="fas fa-calendar-week" /> 23 Jan' 19</span>
-                <span><i className="fas fa-comment-dots" /> 501</span></div>
-            </div>
-          </article>
-        </div>
-        <div className="col-xl-3 col-lg-3 col-md-6">
+        {allnews.length > 0 ? allnews.map((item, index) => 
+         <div className="col-xl-3 col-lg-3 col-md-6" key={index}>
+         <article className="blog-item blog-item-box">
+           <div className="blog-item-img">
+             <img className="blog-img" src="assets/img/blog/blog1.jpg" alt="img" />
+             <ul className="blog-item-badge">
+               {/* <li><a href="#">Water</a> </li> */}
+        <li><a href="#">{item.title}</a></li>
+             </ul>
+           </div>
+           <div className="blog-item-content">
+        <h5 className="blog-item-title"><a href="#">{item.title}</a></h5>
+        <p>{item.description}</p>
+             <div className="blog-item-details">
+               <span className="blog-item-date"><i className="fas fa-calendar-week" /> 23 Jan' 19</span>
+               <span><i className="fas fa-comment-dots" /> 501</span></div>
+           </div>
+         </article>
+       </div>
+       
+        ): null}
+       {/* <div className="col-xl-3 col-lg-3 col-md-6">
           <article className="blog-item blog-item-box">
             <div className="blog-item-img">
               <img className="blog-img" src="assets/img/blog/blog2.jpg" alt="img" />
@@ -1510,7 +1605,7 @@ const Home = () => {
                 <span><i className="fas fa-comment-dots" /> 501</span></div>
             </div>
           </article>
-        </div>
+        </div> */}
       </div>
     </div>
   </section>

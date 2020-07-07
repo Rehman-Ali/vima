@@ -1,9 +1,89 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import MainHeader from '../../../layout/Header/MainHeader'
 import SideBar from '../SideBar'
+import {SERVER_URL} from '../../../components/utils/config';
+import {useAlert} from 'react-alert';
 
 const Profile = () => {
-	return (
+  
+  const alert = useAlert();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [name, setName] = useState(user !== undefined ? user.name : '');
+  const [email, setEmail] = useState( user !== undefined ? user.email : '');
+  
+  // for error handling
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState( '');
+  
+ 
+
+const onChangeName= (e) =>{
+  setNameError('')
+  setName(e.target.value);
+  
+}
+
+const onChangeEmail= (e) =>{
+  setEmailError('')
+  setEmail(e.target.value);
+  
+}
+// const onChangeDescription= (e) =>{
+//   setDescriptionError('')
+//   setDescription(e.target.value);
+  
+// }
+
+
+
+
+
+const onSubmit = (e) => {
+  e.preventDefault();
+
+  if (name === "") {
+    setNameError("Please Enter Name!");
+  } else if (email === "") {
+    setEmailError("Please Enter Email!");
+  } else {
+    
+
+    const data = {
+      name: name ,
+      email: email,
+        
+    };
+
+
+    fetch(`${SERVER_URL}api/user/profile`, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+       'X-Auth-Token': user.token,
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(json => {
+        alert.success(json.msg)
+        // setLoading(false)
+        // props.history.push('/donation-product')
+      })
+      .catch(error => {
+        
+        alert.error('Invalid Activity Try Again!')
+      });
+
+  
+
+   }
+     
+};
+ 
+
+  return (
 		<Fragment>
 			
     {/* Navigation */}
@@ -51,17 +131,17 @@ const Profile = () => {
                             </label>
                             <input
                               type="text"
-                            //   name="name"
-                            //   value={name}
-                            //   onChange={(e) => onChangeName(e)}
+                              name="name"
+                              value={name}
+                              onChange={(e) => onChangeName(e)}
                             
                               className="form-control form-control-submit"
                               placeholder="Enter Your Name"
                               required
                             />
-                            {/* <p style={{ color: "red", paddingLeft: "10px" }}>
-                              {emailError}
-                            </p> */}
+                            <p style={{ color: "red", paddingLeft: "10px" }}>
+                              {nameError}
+                            </p>
                           </div>
                           <div className="form-group">
                             <label className="text-light-white fs-14">
@@ -69,16 +149,16 @@ const Profile = () => {
                             </label>
                             <input
                               type="email"
-                            //   name="email"
-                            //   value={email}
-                            //   onChange={(e) => onChangeEmail(e)}
+                              name="email"
+                              value={email}
+                              onChange={(e) => onChangeEmail(e)}
                               className="form-control form-control-submit"
                               placeholder="Email I'd"
                               required
                             />
-                            {/* <p style={{ color: "red", paddingLeft: "10px" }}>
+                            <p style={{ color: "red", paddingLeft: "10px" }}>
                               {emailError}
-                            </p> */}
+                            </p>
                           </div>
                           {/* <div className="form-group">
                             <label className="text-light-white fs-14">
@@ -102,7 +182,7 @@ const Profile = () => {
                             <button
                               type="submit"
                               className="btn-second-2 btn-submit full-width"
-                            //   onClick={(e) => onSubmit(e)}
+                              onClick={(e) => onSubmit(e)}
                             >
                              Update  account
                             </button>
