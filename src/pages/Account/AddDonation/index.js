@@ -1,9 +1,11 @@
-import React, { Fragment , useState} from "react";
+import React, { Fragment , useState, Component} from "react";
 import MainHeader from "../../../layout/Header/MainHeader";
 import SideBar from "../SideBar";
 import {useAlert} from 'react-alert';
 import {SERVER_URL} from '../../../components/utils/config';
+import axios from 'axios';
 const AddDonation = () => {
+
  
 
   // :
@@ -19,6 +21,8 @@ const AddDonation = () => {
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [description, setDescription] = useState('');
+  const [file, setFile] = useState('');
+  
   
   // for error handling
   const [nameError, setNameError] = useState('');
@@ -81,9 +85,15 @@ const onChangeDescription= (e) =>{
 }
 
 
+const onFileChange =(e) => {
+setFile(e.target.files[0])
+}
 
-const onSubmit = (e) => {
+
+
+const onSubmit = async(e) => {
   e.preventDefault();
+ 
 
   if (name === "") {
     setNameError("Please Enter Name!");
@@ -101,41 +111,130 @@ const onSubmit = (e) => {
     setDescriptionError("Please Enter description!");
   }else {
     
+    e.preventDefault();
+    const formData = new FormData();
+    // for(let i=0; i< file.length ; i++){
+      formData.append('file', file);
 
-    const data = {
-      name: name ,
-      // email: email,
-      phone : phone,
-      country:country,
-      state:state,
-      description:description,
-      city:city,
-      address:address,
-      landline_no:landline_no,
-      user_id: user.user_id
+    // }
+    
+    try {
+      const res = await axios.post(`${SERVER_URL}upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        // onUploadProgress: progressEvent => {
+        //   setUploadPercentage(
+        //     parseInt(
+        //       Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        //     )
+        //   );
 
-    };
-
-
-    fetch(`${SERVER_URL}api/donation/`, {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-       'X-Auth-Token': user.token,
-      },
-      body: JSON.stringify(data),
-    })
-      .then(response => response.json())
-      .then(json => {
-        alert.success(json.message)
-        // setLoading(false)
-        // props.history.push('/donation-product')
-      })
-      .catch(error => {
-        
-        alert.error('Invalid Activity Try Again!')
+        //   // Clear percentage
+        //   setTimeout(() => setUploadPercentage(0), 10000);
+        // }
       });
+
+      alert.success('File Uploaded');
+    } catch (err) {
+      if (err.response.status === 500) {
+        alert.error('There was a problem with the server');
+      } else {
+        alert.error(err.response.data.msg);
+      }
+    }
+  
+  
+    // var formData = new FormData();
+    //   formData.append('name',name)
+    //   formData.append('phone',phone)
+    //   formData.append('country',country)
+    //   formData.append('state',state)
+    //   formData.append('description',description)
+    //   formData.append('city',city)
+    //   formData.append('address',address)
+    //   formData.append('landline_no',landline_no)
+    //   formData.append('user_id',user.user_id)
+    // //   formData.append('imgCollection',imgCollection)
+   
+  //   for (const key of Object.keys(imgCollection)) {
+  //     formData.append('file', imgCollection[key])
+  // }
+    // for(let i=0; i< file.length ; i++){
+    //   formData.append("file", file[i])
+    // }
+
+   
+    // //  imgCollection.map((item, i) => {
+    // //   ;
+    // // });    
+    // axios.post(`${SERVER_URL}api/donationProduct/upload`, formData, {}).then(res => {
+    //     console.log(res.data)
+    //     alert.success(res.message)
+    // }).catch(err =>{
+    //   console.log(err)
+    // })
+  //   fetch(`${SERVER_URL}api/donationProduct/upload` ,
+  //   {
+  //     method: 'Post',
+  //     headers: {
+  //       //Accept: 'application/json',
+  //       'Content-Type': 'multipart/form-data',
+  //       // 'X-Auth-Token': this.state.User.token,
+  //     },
+  //     body: formData,
+  //   },
+  // )
+  //   .then(response => response.json())
+  //   .then(json => {
+  //     //  alert.success(json.message)
+  //     console.log(json)
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   });
+
+    // console.log('image', formData)
+    
+    // const data = {
+    //   name: name ,
+    //   // email: email,
+    //   phone : phone,
+    //   country:country,
+    //   state:state,
+    //   description:description,
+    //   city:city,
+    //   address:address,
+    //   landline_no:landline_no,
+    //   user_id: user.user_id,
+    //   imgCollection: formData
+
+    // };
+
+    // axios.post("http://localhost:4000/api/upload-images", formData, {
+    // }).then(res => {
+    //     console.log(res.data)
+    // })
+
+    // fetch(`${SERVER_URL}api/donationProduct/upload-images`, {
+    //   method: 'post',
+    //   headers: {
+    //     // Accept: 'application/json',
+    //     'Content-Type': 'multipart/form-data',
+    //    'X-Auth-Token': user.token,
+    //   },
+    //   body: formData,
+    // })
+    //   .then(response => response.json())
+    //   .then(json => {
+    //     alert.success(json.message)
+    //     // setLoading(false)
+    //     // props.history.push('/donation-product')
+    //   })
+    //   .catch(error => {
+        
+    //     alert.error('Invalid Activity Try Again!')
+    //   });
 
   
 
@@ -180,7 +279,8 @@ const onSubmit = (e) => {
                 <div className="row" style={{ marginLeft: "20px" }}>
                   <div className="col-xl-12 col-lg-12">
                     <div className="">
-                      <form>
+                                
+                      <form  onSubmit={(e) => onSubmit(e)}>
                         <h4 className="text-light-black fw-600">
                         Add Donation
                         </h4>
@@ -383,6 +483,9 @@ const onSubmit = (e) => {
                                 //   name="name"
                                 //   value={name}
                                 //   onChange={(e) => onChangeName(e)}
+                                name="file" 
+                                onChange={(e) => onFileChange(e)}
+                                //  multiple
 
                                 className="form-control form-control-submit"
                                 // placeholder="Enter Your Name"
@@ -398,7 +501,6 @@ const onSubmit = (e) => {
                               <button
                                 type="submit"
                                 className="btn-second-2 btn-submit full-width"
-                                 onClick={(e) => onSubmit(e)}
                               >
                                 submit
                               </button>
