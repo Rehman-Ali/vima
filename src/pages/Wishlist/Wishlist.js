@@ -1,7 +1,21 @@
 import React , {Fragment} from 'react'
 import MainHeader from '../../layout/Header/MainHeader'
+import {useSelector, useDispatch} from 'react-redux';
+import {IMAGE_URL} from '../../components/utils/config';
+import {Link, Redirect} from 'react-router-dom';
+import {REQUEST_BUTTON_CLICK} from '../../actions/types';
+const Wishlist = props => {
 
-const Wishlist = () => {
+  
+  const products = useSelector(state => state.cart.products);
+  const dispatch = useDispatch();
+  const OnClick= () =>{
+    dispatch({
+      type: REQUEST_BUTTON_CLICK
+    })
+    return props.history.push('/donation-request')
+    }
+  
   return (
     <Fragment>
     
@@ -38,22 +52,27 @@ const Wishlist = () => {
                     <th className="pro-remove">Remove</th>
                     <th className="pro-thumbnail">Thumbnail</th>
                     <th className="pro-title">Product</th>
-                    <th className="pro-price">Price</th>
-                    <th className="pro-quantity">Stock Status</th>
-                    <th className="pro-subtotal">Add to Cart</th>
+                    <th className="pro-price">Description</th>
+                    {/* <th className="pro-quantity">Stock Status</th>
+                    <th className="pro-subtotal">Add to Cart</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="pro-remove"><a href="#"><i className="pe-7s-trash" /></a></td>
-                    <td className="pro-thumbnail"><a href="#"><img className="img-fluid" src="assets/img/shop/product5.jpg" alt="Product" /></a></td>
-                    <td className="pro-title"><a href="#">Diamond Exclusive Ornament</a></td>
-                    <td className="pro-price"><span>$295.00</span></td>
-                    <td className="pro-quantity"><span className="text-success">In Stock</span></td>
-                    <td className="pro-subtotal"><a href="cart" className="btn btn-solid">Add to
-                        Cart</a></td>
+                  {products.length > 0 ? products.map((item, index) =>
+                   <tr>
+                   <td className="pro-remove"><a href="#"><i className="pe-7s-trash" /></a></td>
+                   <td className="pro-thumbnail"><a href="#"><img className="img-fluid" src={IMAGE_URL+ item.product_image} alt="Product" /></a></td>
+                  <td className="pro-title"><a href="#">{item.product_name}</a></td>
+                   {/* <td className="pro-price"><span>$295.00</span></td> */}
+                                  {/* <td className="pro-quantity"><span className="text-success">In Stock</span></td> */}
+                   <td className="pro-subtotal">{item.product_description}
+                    </td>
                   </tr>
-                  <tr>
+                  )
+                : 'Cart is Empty'  
+                }
+                  
+                  {/* <tr>
                     <td className="pro-remove"><a href="#"><i className="pe-7s-trash" /></a></td>
                     <td className="pro-thumbnail"><a href="#"><img className="img-fluid" src="assets/img/shop/product2.jpg" alt="Product" /></a></td>
                     <td className="pro-title"><a href="#">Perfect Diamond Jewellery</a></td>
@@ -79,11 +98,16 @@ const Wishlist = () => {
                     <td className="pro-quantity"><span className="text-success">In Stock</span></td>
                     <td className="pro-subtotal"><a href="cart" className="btn btn-solid">Add to
                         Cart</a></td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>
           </div>
+          <div style={{ marginLeft :'15px', marginTop:'20px'}}>
+          <button  
+          onClick={() => OnClick()}
+           className="btn btn-solid" >Make a Request</button>
+           </div>
         </div>
       </div>
     </div>

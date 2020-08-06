@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react'
 import MainHeader from "../../../layout/Header/MainHeader";
 import SideBar from "../SideBar";
-import {useAlert} from 'react-alert';
+// import {useAlert} from 'react-alert';
 import {SERVER_URL} from '../../../components/utils/config';
 const BecomeVolunteer = () => {
-  const alert = useAlert();
+  // const alert = useAlert();
   const user = JSON.parse(localStorage.getItem("user"));
  
   const [name, setName] = useState('');
@@ -122,13 +122,13 @@ const onSubmit = (e) => {
     })
       .then(response => response.json())
       .then(json => {
-        alert.success(json.message)
+         alert.success(json.message)
         // setLoading(false)
         // props.history.push('/donation-product')
       })
       .catch(error => {
         
-        alert.error('Invalid Activity Try Again!')
+        // alert.error('Invalid Activity Try Again!')
       });
 
   

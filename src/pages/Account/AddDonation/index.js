@@ -1,7 +1,7 @@
-import React, { Fragment , useState, Component} from "react";
+import React, { Fragment , useState, Component, useRef} from "react";
 import MainHeader from "../../../layout/Header/MainHeader";
 import SideBar from "../SideBar";
-import {useAlert} from 'react-alert';
+// import {useAlert} from 'react-alert';
 import {SERVER_URL} from '../../../components/utils/config';
 import axios from 'axios';
 const AddDonation = () => {
@@ -9,25 +9,25 @@ const AddDonation = () => {
  
 
   // :
-  const alert = useAlert();
+  // const alert = useAlert();
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [landline_no, setLandline_no] = useState('');
+  const [product_name, setProduct_name] = useState('');
   const [address, setAddress] = useState('');
   const [country, setCountry] = useState('');
   const [phone, setPhone] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [description, setDescription] = useState('');
-  const [file, setFile] = useState('');
+  const [images, setImages] = useState('');
   
   
   // for error handling
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState( '');
-  const [landline_noError, setLandline_noError] = useState('');
+  const [product_nameError, setProduct_nameError] = useState('');
   const [addressError, setAddressError] = useState('');
   const [countryError, setCountryError] = useState('');
   const [phoneError, setPhoneError] = useState('');
@@ -48,9 +48,9 @@ const onChangeEmail= (e) =>{
   setEmail(e.target.value);
   
 }
-const onChangeLandline_no= (e) =>{
-  setLandline_noError('')
-  setLandline_no(e.target.value);
+const onChangeProduct_name= (e) =>{
+  setProduct_nameError('')
+  setProduct_name(e.target.value);
   
 }
 const onChangeAddress= (e) =>{
@@ -85,8 +85,14 @@ const onChangeDescription= (e) =>{
 }
 
 
-const onFileChange =(e) => {
-setFile(e.target.files[0])
+const onFileChange =(event) => {
+	let images = [];
+    	for (var i = 0; i < event.target.files.length; i++) {
+            images[i] = event.target.files.item(i);
+        }
+        images = images.filter(image => image.name.match(/\.(jpg|jpeg|png|gif|PNG|JPEG|JPG)$/))
+        // this.setState({ images, message })
+	setImages(images)
 }
 
 
@@ -111,137 +117,34 @@ const onSubmit = async(e) => {
     setDescriptionError("Please Enter description!");
   }else {
     
-    e.preventDefault();
-    const formData = new FormData();
-    // for(let i=0; i< file.length ; i++){
-      formData.append('file', file);
-
-    // }
-    
-    try {
-      const res = await axios.post(`${SERVER_URL}upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        // onUploadProgress: progressEvent => {
-        //   setUploadPercentage(
-        //     parseInt(
-        //       Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        //     )
-        //   );
-
-        //   // Clear percentage
-        //   setTimeout(() => setUploadPercentage(0), 10000);
-        // }
-      });
-
-      alert.success('File Uploaded');
-    } catch (err) {
-      if (err.response.status === 500) {
-        alert.error('There was a problem with the server');
-      } else {
-        alert.error(err.response.data.msg);
-      }
-    }
   
-  
-    // var formData = new FormData();
-    //   formData.append('name',name)
-    //   formData.append('phone',phone)
-    //   formData.append('country',country)
-    //   formData.append('state',state)
-    //   formData.append('description',description)
-    //   formData.append('city',city)
-    //   formData.append('address',address)
-    //   formData.append('landline_no',landline_no)
-    //   formData.append('user_id',user.user_id)
-    // //   formData.append('imgCollection',imgCollection)
-   
-  //   for (const key of Object.keys(imgCollection)) {
-  //     formData.append('file', imgCollection[key])
-  // }
-    // for(let i=0; i< file.length ; i++){
-    //   formData.append("file", file[i])
-    // }
-
-   
-    // //  imgCollection.map((item, i) => {
-    // //   ;
-    // // });    
-    // axios.post(`${SERVER_URL}api/donationProduct/upload`, formData, {}).then(res => {
-    //     console.log(res.data)
-    //     alert.success(res.message)
-    // }).catch(err =>{
-    //   console.log(err)
-    // })
-  //   fetch(`${SERVER_URL}api/donationProduct/upload` ,
-  //   {
-  //     method: 'Post',
-  //     headers: {
-  //       //Accept: 'application/json',
-  //       'Content-Type': 'multipart/form-data',
-  //       // 'X-Auth-Token': this.state.User.token,
-  //     },
-  //     body: formData,
-  //   },
-  // )
-  //   .then(response => response.json())
-  //   .then(json => {
-  //     //  alert.success(json.message)
-  //     console.log(json)
-  //   })
-  //   .catch(error => {
-  //     console.error(error);
-  //   });
-
-    // console.log('image', formData)
-    
-    // const data = {
-    //   name: name ,
-    //   // email: email,
-    //   phone : phone,
-    //   country:country,
-    //   state:state,
-    //   description:description,
-    //   city:city,
-    //   address:address,
-    //   landline_no:landline_no,
-    //   user_id: user.user_id,
-    //   imgCollection: formData
-
-    // };
-
-    // axios.post("http://localhost:4000/api/upload-images", formData, {
-    // }).then(res => {
-    //     console.log(res.data)
-    // })
-
-    // fetch(`${SERVER_URL}api/donationProduct/upload-images`, {
-    //   method: 'post',
-    //   headers: {
-    //     // Accept: 'application/json',
-    //     'Content-Type': 'multipart/form-data',
-    //    'X-Auth-Token': user.token,
-    //   },
-    //   body: formData,
-    // })
-    //   .then(response => response.json())
-    //   .then(json => {
-    //     alert.success(json.message)
-    //     // setLoading(false)
-    //     // props.history.push('/donation-product')
-    //   })
-    //   .catch(error => {
-        
-    //     alert.error('Invalid Activity Try Again!')
-    //   });
-
-  
+    var formData = new FormData();
+    const uploaders = images.map(image => {
+				    const data = new FormData();
+					data.append("image", image, image.name);
+					data.append('name',name)
+					data.append('phone',phone)
+					data.append('country',country)
+					data.append('state',state)
+					data.append('description',description)
+					data.append('city',city)
+					data.append('address',address)
+					data.append('product_name',product_name)
+					data.append('user_id',user.user_id)
+					
+			    	// Make an AJAX upload request using Axios`
+			    	return axios.post(`${SERVER_URL}api/donationProduct/upload`, data)
+			    	.then(response => {
+						console.log('response ', response)
+					})
+				});
+		  
 
    }
      
 };
  
+
  
  
  
@@ -280,7 +183,8 @@ const onSubmit = async(e) => {
                   <div className="col-xl-12 col-lg-12">
                     <div className="">
                                 
-                      <form  onSubmit={(e) => onSubmit(e)}>
+                    {/* <form  onSubmit={(e) => onSubmit(e)}> */}
+                      <form  >
                         <h4 className="text-light-black fw-600">
                         Add Donation
                         </h4>
@@ -353,15 +257,15 @@ const onSubmit = async(e) => {
                               <div className="col-md-6 col-sm-12">
                                 <div className="form-group">
                                   <label className="text-light-white fs-14">
-                                   Land line no
+                                   Product Name 
                                   </label>
                                   <input
                                     type="text"
-                                      name="landline_no"
-                                      value={landline_no}
-                                      onChange={(e) => onChangeLandline_no(e)}
+                                      name="Product Name"
+                                      value={product_name}
+                                      onChange={(e) => onChangeProduct_name(e)}
                                     className="form-control form-control-submit"
-                                    placeholder="Enter landline no"
+                                    placeholder="Enter Product Name"
                                     
                                   />
                                   
@@ -479,17 +383,19 @@ const onSubmit = async(e) => {
                                 Attach File
                               </label>
                               <input
-                                type="file"
-                                //   name="name"
-                                //   value={name}
-                                //   onChange={(e) => onChangeName(e)}
-                                name="file" 
-                                onChange={(e) => onFileChange(e)}
+                              type="file" onChange={onFileChange}
+                                // type="file"
+                                // //   name="name"
+                                // //   value={name}
+                                // //   onChange={(e) => onChangeName(e)}
+                                // name="file" 
+                                // onChange={(e) => onFileChange(e)}
                                 //  multiple
 
-                                className="form-control form-control-submit"
+                                // className="form-control form-control-submit"
                                 // placeholder="Enter Your Name"
                                 // required
+                                
                               />
                               {/* <p style={{ color: "red", paddingLeft: "10px" }}>
                               {emailError}
@@ -499,11 +405,13 @@ const onSubmit = async(e) => {
                           <div className="col-4">
                             <div className="form-group">
                               <button
-                                type="submit"
+                                // type="submit"
                                 className="btn-second-2 btn-submit full-width"
+                                onClick={(e) => onSubmit(e)}
                               >
                                 submit
                               </button>
+                           
                             </div>
                           </div>
                         </div>
@@ -516,6 +424,10 @@ const onSubmit = async(e) => {
           </div>
         </div>
       </section>
+      <hr/>
+            {/* {data.path && <div><textarea value={data.path} onChange={uploadFile} /></div>}
+            {data.path && <img src={data.path} alt={data.name} />} */}
+
       {/* Sucscriber */}
       <section className="section-padding bg-theme-primary block_newsletter">
         <div className="container">
@@ -880,3 +792,88 @@ const onSubmit = async(e) => {
 };
 
 export default AddDonation;
+
+
+// import React, { Fragment , useState, Component, useRef} from "react";
+// import MainHeader from "../../../layout/Header/MainHeader";
+// import SideBar from "../SideBar";
+// // import {useAlert} from 'react-alert';
+// import {SERVER_URL} from '../../../components/utils/config';
+// import axios from 'axios';
+// // import React, { Component } from 'react';
+// // import axios from 'axios';
+
+// const BASE_URL = 'http://localhost:5000/';
+
+// class AddDonation extends Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//         	images: [],
+//         	imageUrls: [],
+//         	message: ''
+//         }
+//     }
+
+//     selectFiles = (event) => {
+//     	let images = [];
+//     	for (var i = 0; i < event.target.files.length; i++) {
+//             images[i] = event.target.files.item(i);
+//         }
+//         images = images.filter(image => image.name.match(/\.(jpg|jpeg|png|gif)$/))
+//         let message = `${images.length} valid image(s) selected`
+//         this.setState({ images, message })
+//     }
+
+//     uploadImages = () => {
+    
+	//     	const uploaders = this.state.images.map(image => {
+	// 		    const data = new FormData();
+	// 		    data.append("image", image, image.name);
+				
+	// 	    	// Make an AJAX upload request using Axios`
+	// 	    	return axios.post(`${SERVER_URL}api/donationProduct/upload`, data)
+	// 	    	.then(response => {
+	// 				this.setState({imageUrl: [response.data.imageUrls, ...this.state.imageUrls]});
+	// 			})
+	// 		});
+
+// 	 	// Once all the files are uploaded 
+// 		axios.all(uploaders).then(() => {
+// 			console.log('done');
+// 		}).catch(err => alert(err.message));
+
+//     }
+
+//     render() {
+//         return (
+//         	<div>
+// 	        	<br/>
+// 	        	<div className="col-sm-12">
+//         			<h1>Image Uploader</h1><hr/>
+// 	        		<div className="col-sm-4">
+// 		        		<input className="form-control " type="file" onChange={this.selectFiles} multiple/>
+// 		        	</div>
+// 		        	{ this.state.message? <p className="text-info">{this.state.message}</p>: ''}
+// 		        	<br/><br/><br/>
+// 		        	<div className="col-sm-4">
+// 		            	<button className="btn btn-primary" value="Submit" onClick={this.uploadImages}>Submit</button>
+// 		        	</div>
+// 	            </div>
+// 	            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><hr/><br/>
+// 	            <div className="row col-lg-12">
+// 		        	{ 
+// 			          	this.state.imageUrls.map((url, i) => (
+// 				          		<div className="col-lg-2" key={i}>
+// 				          			<img src={BASE_URL + url} className="img-rounded img-responsive" alt="not available"/><br/>
+// 				          		</div>
+// 				          	))
+// 			        }
+// 		        </div>
+// 		    </div>
+//         );
+//     }
+// }
+
+ 			
+// export default AddDonation;

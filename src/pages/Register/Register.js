@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { SERVER_URL } from "../../components/utils/config";
 import { SINGUP_FAIL, SINGUP_SUCCESS } from "../../actions/types";
-import { useAlert } from "react-alert";
+// import { useAlert } from "react-alert";
 import { useDispatch } from "react-redux";
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,7 +10,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   // for error
-  const alert = useAlert();
+  // const alert = useAlert();
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -68,7 +68,7 @@ const Register = () => {
           });
 
           setLoading(false);
-          alert.success("Signup successfully!");
+          // alert.success("Signup successfully!");
         })
         .catch((error) => {
           dispatch({
@@ -76,7 +76,7 @@ const Register = () => {
             payload: "Some server Error",
           });
           setLoading(false);
-          alert.error("Email and password is Invalid!");
+          // alert.error("Email and password is Invalid!");
         });
     }
   };

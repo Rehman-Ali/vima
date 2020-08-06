@@ -1,9 +1,42 @@
-import React, { Fragment } from 'react'
+import React, { Fragment , useEffect} from 'react'
 import MainHeader from '../../../layout/Header/MainHeader'
 import SideBar from '../SideBar'
-
+import { ALL_DONATION_PRODUCT_HISTORY_SUCCESS, ALL_DONATION_PRODUCT_HISTORY_FAIL} from "../../../actions/types";
+import {useSelector, useDispatch} from 'react-redux';
+import {SERVER_URL,IMAGE_URL} from '../../../components/utils/config';
 const DonationHistory = () => {
-    return (
+  const allDonationProductHistory = useSelector((state) => state.donationProduct.allDonationProductHistory);
+  const dispatch = useDispatch()
+  const user = JSON.parse(localStorage.getItem('user'))
+ 
+  useEffect(() => {
+     // get all donation product
+     fetch(`${SERVER_URL}api/donationProduct/user-product`, {
+       method: "GET",
+       headers: {
+         Accept: "application/json",
+         "Content-Type": "application/json",
+          "X-Auth-Token": user.token,
+       },
+     })
+       .then((response) => response.json())
+       .then((json) => {
+         dispatch({
+           type: ALL_DONATION_PRODUCT_HISTORY_SUCCESS,
+           payload: json.product,
+         });
+       })
+       .catch((error) => {
+         dispatch({
+           type: ALL_DONATION_PRODUCT_HISTORY_FAIL,
+         });
+       });
+}, []);
+
+
+  
+  
+  return (
         <Fragment>
           		
             {/* Navigation */}
@@ -118,297 +151,45 @@ const DonationHistory = () => {
                   <div className="col-xl-9 col-lg-8">
                     <div className=" full-width">
                       <div className="row">
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article9.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
+                        {allDonationProductHistory.length > 0 ? allDonationProductHistory.map((item, index) =>
+                        <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
+                        <div className="sa-causes-single sa-causes-single-2">
+                          <div className="entry-thumb">
+                            <img src={IMAGE_URL + item.product_image} alt="img" className="img-fluid full-width" />
+                            {/* <div className="dontaion-category"><a href="#">Education</a></div> */}
+                          </div>
+                          <div className="causes-details-wrap">
+                            <div className="causes-details">
+                        <h5><a href="#">{item.product_name}</a></h5>
+                        <p>{item.product_description}</p>
+                              {/* <div className="cause-progress">
+                                <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
+                                  <span>17%</span>
                                 </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
+                              </div> */}
+                              {/* <div className="causes-amount">
+                                <div className="left">
+                                  <p>Raised</p>
+                                  <span>$4585.00</span>
                                 </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
+                                <div className="right">
+                                  <p>Goal</p>
+                                  <span>$4585.00</span>
+                                </div>
+                              </div> */}
                             </div>
                           </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article8.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article7.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article6.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article5.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article4.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article3.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article2.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="sa-causes-single sa-causes-single-2">
-                            <div className="entry-thumb">
-                              <img src="assets/img/donation/article1.jpg" alt="img" className="img-fluid full-width" />
-                              <div className="dontaion-category"><a href="#">Education</a></div>
-                            </div>
-                            <div className="causes-details-wrap">
-                              <div className="causes-details">
-                                <h5><a href="#">Health &amp; Infectious Diseases</a></h5>
-                                <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                                <div className="cause-progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                                    <span>17%</span>
-                                  </div>
-                                </div>
-                                <div className="causes-amount">
-                                  <div className="left">
-                                    <p>Raised</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                  <div className="right">
-                                    <p>Goal</p>
-                                    <span>$4585.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="btn-area text-center">
-                              <a className="btn-donation text-btn" href="#">donate now</a>
-                            </div>
+                          <div className="btn-area text-center">
+                            <a className="btn-donation text-btn" disabeled href="#">Status: {item.status == '1' ? 'Approved' : 'Pending' }</a>
                           </div>
                         </div>
                       </div>
+                      
+                        
+                        ) : null}
+                         </div>
                     </div>
-                    <div className="custom-pagination align-item-center">
+                    {/* <div className="custom-pagination align-item-center">
                       <nav aria-label="Page navigation example">
                         <ul className="pagination">
                           <li className="page-item">
@@ -429,7 +210,7 @@ const DonationHistory = () => {
                           </li>
                         </ul>
                       </nav>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import React, { Fragment , useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux';
-import {useAlert} from 'react-alert';
+// import {useAlert} from 'react-alert';
 import {SERVER_URL} from '../../components/utils/config';
 import {LOGIN_FAIL, LOGIN_SUCCESS} from '../../actions/types';
 
@@ -13,7 +13,7 @@ const Login = props => {
 	const dispatch = useDispatch();
 	const user = JSON.parse(localStorage.getItem('user'))
 	
-	 const alert = useAlert() ;
+	//  const alert = useAlert() ;
 	const onChangeEmail = (e) => {
 	  setError('');
 	  setEmail(e.target.value);
@@ -67,10 +67,10 @@ const Login = props => {
 				if(json.success === 1){
 				  localStorage.setItem('user', JSON.stringify(json))
 				  setLoading(false)
-				  alert.success('Login successfully!')
+				//   alert.success('Login successfully!')
 				}else{
 				  setLoading(false)
-				  alert.error('Invalid credential Please try again!')
+				//   alert.error('Invalid credential Please try again!')
 				}
 				
 			  })
@@ -80,7 +80,7 @@ const Login = props => {
 				  payload: 'Some server Error'
 				});
 				setLoading(false)
-			   alert.error('Email and password is Invalid!')
+			//    alert.error('Email and password is Invalid!')
 			  });
 		 
    

@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react'
 import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 const MainHeader = () => {
  const user = JSON.parse(localStorage.getItem('user'))
- 
+ const products = useSelector(state => state.cart.products);
+  let length = products !== null && products !== undefined && products.length > 0 ? products.length : 0;
+
   return (
         <Fragment>
              <header className="header">
@@ -32,9 +35,9 @@ const MainHeader = () => {
                       </li>
                     </ul> */}
                   </li>
-                  <li className="menu-item"> <Link to="/about" className="text-light-black">About</Link>
-                  </li>
-                  <li className="menu-item "> <Link to="/shop-left">Shop</Link>
+                  {/* <li className="menu-item"> <Link to="/about" className="text-light-black">About</Link>
+                  </li> */}
+                  <li className="menu-item "> <Link to="/donation-product">Shop</Link>
                   </li>
                   <li className="menu-item menu-item-has-children"> <Link to="/" className="text-light-black">Pages</Link>
                     <ul className="sub-menu">
@@ -87,7 +90,7 @@ const MainHeader = () => {
                 </li>
                 <li className="user-details">
                  {user !== undefined && user !== null ?
-                  <Link to="/profile"> <i className="pe-7s-user" /> <span>Hi, Kate</span>
+                  <Link to="/profile"> <i className="pe-7s-user" /> <span>Hi, {user.name}</span>
                   </Link>
                     : 
                     <Link to="/login"> <i className="pe-7s-lock" /> <span>Login/Register</span>
@@ -95,11 +98,11 @@ const MainHeader = () => {
                 }
                   
                 </li>
-                <li className="wishlist"> <Link to="/#" className="text-dark-red"><i className="pe-7s-bell" /></Link>
+                {/* <li className="wishlist"> <Link to="/#" className="text-dark-red"><i className="pe-7s-bell" /></Link>
                   <span className="cart">3</span>
-                </li>
-                <li className="cart"> <Link to="/#" className="text-dark-red"><i className="pe-7s-cart" /></Link>
-                  <span className="cart">3</span>
+                </li> */}
+                <li className="cart"> <Link to="/cart" className="text-dark-red"><i className="pe-7s-cart" /></Link>
+              <span className="cart">{length}</span>
                 </li>
               </ul>
             </div>

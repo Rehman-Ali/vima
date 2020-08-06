@@ -28,6 +28,7 @@ import DonationRequest from '../pages/Account/DonationRequest';
 import BecomeVolunteer from '../pages/Account/BecomeVolunteer';
 import DonationHistory from '../pages/Account/DonationHistory';
 import AddDonation from '../pages/Account/AddDonation';
+import OwnProductShop from '../pages/Shop/OwnProductShop';
 
 // set alert time and position
 const options = {
@@ -37,16 +38,16 @@ const options = {
 
 const Routes = () => {
   return (
-    <Provider template={AlertTemplate} {...options}>
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/about' component={AboutUS} />
-      <Route exact path='/shop-left' component={ShopLeft} />
+      <Route exact path='/donation-product' component={ShopLeft} />
+      <Route exact path='/our-product' component={OwnProductShop} />
       <Route exact path='/shop-right' component={shopRight} />
       <Route exact path='/shop-details' component={ShopDetails} />
       <Route exact path='/donation-grid' component={DonationGrid} />
       <Route exact path='/donation-details' component={DonationDetails} />
-      <Route exact path='/wishlist' component={Wishlist} />
+      <Route exact path='/cart' component={Wishlist} />
       <Route exact path='/checkout' component={Checkout} />
       <Route exact path='/order-details' component={OrderDetails} />
       <Route exact path='/404' component={NotFound} />
@@ -64,21 +65,7 @@ const Routes = () => {
       <Route exact path='/donation-request' component={DonationRequest} />
       <Route exact path='/change-password' component={ChangePassword} />
       
-
-
-
-
-
-
-
-
-
-
-
-
-
     </Switch>
-    </Provider>
   
   );
 };

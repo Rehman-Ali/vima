@@ -1,8 +1,100 @@
-import React, { Fragment } from 'react'
+import React, { Fragment , useEffect} from 'react'
 import MainHeader from '../../layout/Header/MainHeader'
+import { ALL_DONATION_PRODUCT_SUCCESS, ALL_DONATION_PRODUCT_FAIL} from "../../actions/types";
+import {useSelector, useDispatch} from 'react-redux';
+import {SERVER_URL,IMAGE_URL} from '../../components/utils/config';
+import {
+  addItemToCart,
+  addToCart,
+} from '../../actions/cart';
+import {Link} from 'react-router-dom';
 
 const ShopLeft = () => {
-	return (
+  const allDonationProduct = useSelector((state) => state.donationProduct.allDonationProduct);
+  const products = useSelector(state => state.cart.products);
+
+   const dispatch = useDispatch()
+  useEffect(() => {
+      // get all donation product
+      fetch(`${SERVER_URL}api/donationProduct/active`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // "X-Auth-Token": user.token,
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          dispatch({
+            type: ALL_DONATION_PRODUCT_SUCCESS,
+            payload: json.product,
+          });
+        })
+        .catch((error) => {
+          dispatch({
+            type: ALL_DONATION_PRODUCT_FAIL,
+          });
+        });
+}, []);
+
+
+  // add and update the cart button
+  const addAndUpdatenTheCart = item => {
+    let product = item;
+    let productExists = false;
+    products.forEach((p, idx) => {
+      if (product._id === p._id) {
+        productExists = true;
+        // assign product from redux cart
+        product = p;
+      }
+    });
+    if (productExists) {
+      addProductToCart(product);
+    } else {
+      addProductToCart(product);
+    }
+  };
+
+  // add to cart function
+  const addProductToCart = item => {
+    const product = item;
+    let itemQty = product.quantity;
+    let productExists = false;
+    let productIndex = -1;
+    products.forEach((p, idx) => {
+      if (product._id === p._id) {
+        productExists = true;
+        productIndex = idx;
+      }
+    });
+    if (productExists) {
+      // if (itemQty === undefined) {
+      //   itemQty = 1;
+      // } else {
+      //   itemQty = product.quantity;
+      // }
+      // alert.success(`Already in cart!`);
+       console.log(`Already in cart!`);
+      console.log('add item of product cart is', product.quantity);
+      // dispatch(increaseItemQuantity(
+      //   productIndex,
+      //   product,
+      //   (itemQty = itemQty + 1)
+      // ));
+    } else {
+     dispatch(addItemToCart(product));
+      // alert.success('Successfully added to cart!');
+    }
+    // to add the product in localstorage
+
+   dispatch(addToCart());
+  };
+
+
+  
+  return (
 		<Fragment>
 
   {/* Navigation */}
@@ -12,11 +104,11 @@ const ShopLeft = () => {
     <div className="overlay overlay-bg" />
     <div className="container">
       <div className="breadcrumb-content">
-        <h2>Shop Grid Left</h2>
+        <h2>Dontion Product Shop</h2>
         <ul>
           <li><a href="">Home</a>
           </li>
-          <li className="active">Shop Left Sidebar</li>
+          <li className="active">Dontion Products</li>
         </ul>
       </div>
     </div>
@@ -95,634 +187,54 @@ const ShopLeft = () => {
                 </div>
               </article>
             </div>
-            <div className="main-box padding-20 trending-blog-cat mb-xl-20">
-              <h5 className="text-light-black">Price</h5>
-              <div className="delivery-slider">
-                <input type="text" className="delivery-range-slider" defaultValue />
-              </div>
-            </div>
-            <div className="main-box padding-20 trending-blog-cat mb-xl-20">
-              <h5 className="text-light-black">Brands</h5>
-              <div className="filter">
-                <form>
-                  <label className="custom-checkbox">
-                    <input type="checkbox" name="#" /> <span className="checkmark" /> Goldturn <span className="text-light-white">(3)</span>
-                  </label>
-                  <label className="custom-checkbox">
-                    <input type="checkbox" name="#" /> <span className="checkmark" /> Silverline <span className="text-light-white">(6)</span>
-                  </label>
-                  <label className="custom-checkbox">
-                    <input type="checkbox" name="#" /> <span className="checkmark" /> Gemtuk <span className="text-light-white">(10)</span>
-                  </label>
-                  <label className="custom-checkbox">
-                    <input type="checkbox" name="#" /> <span className="checkmark" /> Ringwing <span className="text-light-white">(6)</span>
-                  </label>
-                </form>
-              </div>
-            </div>
-            <div className="main-box padding-20 trending-blog-cat mb-xl-20">
-              <h5 className="text-light-black">Weight</h5>
-              <div className="filter">
-                <form>
-                  <label className="custom-radio">
-                    <input type="radio" name="#" /> <span className="radio" /> Small
-                  </label>
-                  <label className="custom-radio">
-                    <input type="radio" name="#" /> <span className="radio" /> Medium
-                  </label>
-                  <label className="custom-radio">
-                    <input type="radio" name="#" /> <span className="radio" /> Large
-                  </label>
-                </form>
-              </div>
-            </div>
-            <div className="main-box padding-20 blog-tags mb-xl-20">
-              <h5 className="text-light-black">Tags</h5>
-              <a href="#">#Donation</a>
-              <a href="#">#Education</a>
-              <a href="#">#Handicraft</a>
-              <a href="#">#Paintings</a>
-              <a href="#">#Medival</a>
-              <a href="#">#Trending</a>
-              <a href="#">#Health</a>
-              <a href="#">#Luxary</a>
-              <a href="#">#Rings</a>
-              <a href="#">#Pearl</a>
-              <a href="#">#Luxary</a>
-              <a href="#">#Bestseller</a>
-              <a href="#">#Low Cost</a>
-            </div>
-            <div className="main-box padding-20 trending-blog-cat mb-xl-20">
-              <h5 className="text-light-black">Categories</h5>
-              <ul>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Children <span className="text-light-white fw-400">(110)</span></a>
-                </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Charity <span className="text-light-white fw-400">(98)</span></a>
-                </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Donation <span className="text-light-white fw-400">(52)</span></a>
-                </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Paintings <span className="text-light-white fw-400">(26)</span></a>
-                </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Antique <span className="text-light-white fw-400">(55)</span></a>
-                </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Handicraft <span className="text-light-white fw-400">(48)</span></a>
-                </li>
-                <li className="pb-xl-20 u-line mb-xl-20"> <a href="#" className="text-light-black fw-600">Ceramicart <span className="text-light-white fw-400">(50)</span></a>
-                </li>
-              </ul>
-            </div>
-          </div>
+           
+             </div>
         </div>
         <div className="col-xl-9 col-lg-8">
           <div className="full-width">
             <div className="row">
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product1.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
+              {allDonationProduct.length > 0 ? allDonationProduct.map((item, index) =>
+              
+              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6" key={index}>
+              <div className="product-box mb-md-20">
+                <div className="product-img">
+                  <a href="shop-details">
+                    <img src={IMAGE_URL + item.product_image} className="img-fluid full-width" alt="product-img" />
+                  </a>
+                  {/* <div className="product-badge">
+                    <div className="product-label new"> <span>Veg</span>
                     </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
+                  </div> */}
+                  <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
+                    <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
                   </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
+                  <div className="cart-hover">
+                    <Link to="#" className="btn-cart  fw-600" onClick={() => addAndUpdatenTheCart(item)} tabIndex={-1}>Add To Cart</Link>
                   </div>
                 </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product2.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
+                <div className="product-caption text-center">
+                  <div className="product-status">
+                    <ul className="product-raised">
+                      {/* <li><strong>Distribute:</strong> 45000</li> */}
+                      {/* <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li> */}
+                    </ul>
+                    <div className="progress">
+                      <div className="progress-bar progress-bar-color" style={{width: '100%'}} />
                     </div>
                   </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product4.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product3.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product4.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product3.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product1.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product2.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product3.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product4.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product2.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product4.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product1.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product3.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product4.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div className="product-box mb-md-20">
-                  <div className="product-img">
-                    <a href="shop-details">
-                      <img src="assets/img/shop/product1.jpg" className="img-fluid full-width" alt="product-img" />
-                    </a>
-                    <div className="product-badge">
-                      <div className="product-label new"> <span>Veg</span>
-                      </div>
-                    </div>
-                    <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                      <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                    </div>
-                    <div className="cart-hover">
-                      <a href="shop-details" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                    </div>
-                  </div>
-                  <div className="product-caption text-center">
-                    <div className="product-status">
-                      <ul className="product-raised">
-                        <li><strong>Distribute:</strong> 45000</li>
-                        <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                      </ul>
-                      <div className="progress">
-                        <div className="progress-bar progress-bar-color" style={{width: '75%'}} />
-                      </div>
-                    </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">Veg Curry</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span>
-                      <span className="text-price">$250.00</span>
-                    </div>
-                  </div>
+                <h6 className="product-title fw-500 mt-10"><a href="shop-details" className="text-color-primary">{item.product_name}</a></h6>
+                  {/* <div className="product-money mt-10"> <span className="text-color-primary fw-600">$90.00</span> */}
+                    {/* <span className="text-price">$250.00</span> */}
+                  {/* </div> */}
                 </div>
               </div>
             </div>
+          
+              
+              ) : 'null'}
+             </div>
           </div>
-          <div className="custom-pagination align-item-center">
+          {/* <div className="custom-pagination align-item-center">
             <nav aria-label="Page navigation example">
               <ul className="pagination">
                 <li className="page-item">
@@ -743,7 +255,7 @@ const ShopLeft = () => {
                 </li>
               </ul>
             </nav>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

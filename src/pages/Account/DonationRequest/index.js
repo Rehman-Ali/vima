@@ -1,10 +1,11 @@
 import React, { Fragment , useState} from 'react'
 import MainHeader from "../../../layout/Header/MainHeader";
 import SideBar from "../SideBar";
-import {useAlert} from 'react-alert';
+// import {useAlert} from 'react-alert';
 import {SERVER_URL} from '../../../components/utils/config';
+import {useSelector} from 'react-redux';
 const DonationRequest = () => {
-  const alert = useAlert();
+  // const alert = useAlert();
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [name, setName] = useState('');
@@ -28,6 +29,8 @@ const DonationRequest = () => {
   const [cityError, setCityError] = useState('');
   const [descriptioError, setDescriptionError] = useState('');
   
+  const products = useSelector(state => state.cart.products);
+  const btnClick = useSelector(state => state.cart.btnClick);
  
 
 const onChangeName= (e) =>{
@@ -98,21 +101,41 @@ const onSubmit = (e) => {
     setDescriptionError("Please Enter description!");
   }else {
     
+    let data ={};
+    if(btnClick){
+       data = {
+        name: name ,
+        // email: email,
+        phone : phone,
+        country:country,
+        state:state,
+        description:description,
+        city:city,
+        address:address,
+        landline_no:landline_no,
+        user_id: user.user_id,
+        products: products
+  
+      };
+  
+    }else{
+       data = {
+        name: name ,
+        // email: email,
+        phone : phone,
+        country:country,
+        state:state,
+        description:description,
+        city:city,
+        address:address,
+        landline_no:landline_no,
+        user_id: user.user_id
+  
+      };
+  
+    }
 
-    const data = {
-      name: name ,
-      // email: email,
-      phone : phone,
-      country:country,
-      state:state,
-      description:description,
-      city:city,
-      address:address,
-      landline_no:landline_no,
-      user_id: user.user_id
-
-    };
-
+    
 
     fetch(`${SERVER_URL}api/donationRequest/`, {
       method: 'post',
@@ -125,13 +148,13 @@ const onSubmit = (e) => {
     })
       .then(response => response.json())
       .then(json => {
-        alert.success(json.message)
+         alert.success(json.message)
         // setLoading(false)
         // props.history.push('/donation-product')
       })
       .catch(error => {
         
-        alert.error('Invalid Activity Try Again!')
+        // alert.error('Invalid Activity Try Again!')
       });
 
   
@@ -373,7 +396,7 @@ const onSubmit = (e) => {
                             </p>
                             </div>
                           </div>
-                          <div className="col-12">
+                          {/* <div className="col-12">
                             <div className="form-group">
                               <label className="text-light-white fs-14">
                                 Attach File
@@ -390,9 +413,9 @@ const onSubmit = (e) => {
                               />
                               {/* <p style={{ color: "red", paddingLeft: "10px" }}>
                               {emailError}
-                            </p> */}
+                            </p> 
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-4">
                             <div className="form-group">
                               <button

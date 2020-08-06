@@ -2,9 +2,9 @@ import React, { Fragment, useState } from "react";
 import MainHeader from "../../../layout/Header/MainHeader";
 import SideBar from "../SideBar";
 import { SERVER_URL } from "../../../components/utils/config";
-import { useAlert } from "react-alert";
+// import { useAlert } from "react-alert";
 const ChangePassword = () => {
-  const alert = useAlert();
+  // const alert = useAlert();
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [oldpassword, setOldpassword] = useState("");
@@ -54,18 +54,18 @@ const ChangePassword = () => {
         .then((response) => response.json())
         .then((json) => {
           if(json.success === 1){
-            alert.success(json.message);
+            // alert.success(json.message);
             setOldpassword('');
             setNewpassword('');
           }else{
-            alert.error(json.message);
+            // alert.error(json.message);
           }
           
           // setLoading(false)
           // props.history.push('/donation-product')
         })
         .catch((error) => {
-          alert.error("Invalid Activity Try Again!");
+          // alert.error("Invalid Activity Try Again!");
         });
     }
   };
