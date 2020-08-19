@@ -120,7 +120,7 @@ const onSubmit = async(e) => {
   
     var formData = new FormData();
     const uploaders = images.map(image => {
-				    const data = new FormData();
+				  const data = new FormData();
 					data.append("image", image, image.name);
 					data.append('name',name)
 					data.append('phone',phone)
