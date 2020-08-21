@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-
+import {Link} from 'react-router-dom';
 const TopHeader = () => {
     return (
         <Fragment>
@@ -10,7 +10,7 @@ const TopHeader = () => {
           <div className="top-left">
             <ul className="top-info">
               <li><a href="#"><i className="fas fa-phone-alt" /> +923117880246</a></li>
-              <li><a href="#"><i className="fas fa-envelope" /> hfa@gamil.com</a></li>
+              <li><a href="#"><i className="fas fa-envelope" /> hfa@gmail.com</a></li>
             </ul>
           </div>
         </div>
@@ -23,7 +23,7 @@ const TopHeader = () => {
               <li className="list-inline-item"><a href="#"><i className="fab fa-linkedin" /></a> </li>
               <li className="list-inline-item"><a href="#"><i className="fab fa-youtube" /></a> </li>
             </ul>
-            <a href="#" className="top-btn">Donate now</a>
+            <Link to="/add-donation" className="top-btn">Donate now</Link>
           </div>
         </div>
       </div>

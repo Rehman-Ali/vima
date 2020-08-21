@@ -1,8 +1,9 @@
-import { ALL_DONATION_PRODUCT_FAIL, ALL_DONATION_PRODUCT_SUCCESS,  ALL_DONATION_PRODUCT_HISTORY_FAIL, ALL_DONATION_PRODUCT_HISTORY_SUCCESS  } from "../actions/types";
+import { ALL_DONATION_PRODUCT_FAIL,DONATION_PRODUCT_REQUEST, ALL_DONATION_PRODUCT_SUCCESS,  ALL_DONATION_PRODUCT_HISTORY_FAIL, ALL_DONATION_PRODUCT_HISTORY_SUCCESS  } from "../actions/types";
 
 const initialState = {
   allDonationProduct: [],
   allDonationProductHistory: [],
+  donationRequestProduct: [],
   
 };
 
@@ -30,7 +31,12 @@ export default function (state = initialState, action) {
           ...state,
           allDonationProductHistory: [],
         };
-       
+        case DONATION_PRODUCT_REQUEST:
+          return {
+            ...state,
+            donationRequestProduct: [payload],
+          };
+
     default:
       return {
         ...state,

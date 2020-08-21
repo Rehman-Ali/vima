@@ -1,8 +1,9 @@
-import { ALL_NEWS_FAIL, ALL_NEWS_SUCCESS , EDIT_NEWS_SUCCESS} from "../actions/types";
+import { ALL_NEWS_FAIL, ALL_NEWS_SUCCESS ,NEWS_DETAIL, EDIT_NEWS_SUCCESS} from "../actions/types";
 
 const initialState = {
   allNews: [],
-  editNews:[]
+  editNews:[],
+  newsDetail:[]
   
 };
 
@@ -25,6 +26,12 @@ export default function (state = initialState, action) {
           ...state,
           editNews:[payload] 
         };
+        case NEWS_DETAIL:
+        return {
+          ...state,
+          newsDetail:[payload] 
+        };
+        
        
     default:
       return {

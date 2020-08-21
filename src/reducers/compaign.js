@@ -1,8 +1,9 @@
-import { ALL_COMPAIGN_FAIL, ALL_COMPAIGN_SUCCESS , EDIT_COMPAIGN_SUCCESS} from "../actions/types";
+import { ALL_COMPAIGN_FAIL, COMPAIGN_DETAIL ,ALL_COMPAIGN_SUCCESS , EDIT_COMPAIGN_SUCCESS} from "../actions/types";
 
 const initialState = {
   allCompaign: [],
-  editCompaign:[]
+  editCompaign:[],
+  detailCompaign:[]
   
 };
 
@@ -25,7 +26,13 @@ export default function (state = initialState, action) {
           ...state,
           editCompaign:[payload] 
         };
-       
+      
+        case COMPAIGN_DETAIL:
+        return {
+          ...state,
+          editCompaign:[payload] 
+        };
+      
     default:
       return {
         ...state,

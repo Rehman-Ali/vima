@@ -1,6 +1,6 @@
 import React, { Fragment , useEffect} from 'react'
 import MainHeader from '../../layout/Header/MainHeader'
-import { ALL_DONATION_PRODUCT_SUCCESS, ALL_DONATION_PRODUCT_FAIL} from "../../actions/types";
+import { ALL_DONATION_PRODUCT_SUCCESS,DONATION_PRODUCT_REQUEST, ALL_DONATION_PRODUCT_FAIL} from "../../actions/types";
 import {useSelector, useDispatch} from 'react-redux';
 import {SERVER_URL,IMAGE_URL} from '../../components/utils/config';
 import {
@@ -8,6 +8,7 @@ import {
   addToCart,
 } from '../../actions/cart';
 import {Link} from 'react-router-dom';
+import Footer from '../../layout/Footer';
 
 const ShopLeft = () => {
   const allDonationProduct = useSelector((state) => state.donationProduct.allDonationProduct);
@@ -38,59 +39,66 @@ const ShopLeft = () => {
         });
 }, []);
 
+const addAndUpdatenTheCart = item => {
+  dispatch({
+    type : DONATION_PRODUCT_REQUEST,
+    payload : item
+  }) 
+ };
 
-  // add and update the cart button
-  const addAndUpdatenTheCart = item => {
-    let product = item;
-    let productExists = false;
-    products.forEach((p, idx) => {
-      if (product._id === p._id) {
-        productExists = true;
-        // assign product from redux cart
-        product = p;
-      }
-    });
-    if (productExists) {
-      addProductToCart(product);
-    } else {
-      addProductToCart(product);
-    }
-  };
 
-  // add to cart function
-  const addProductToCart = item => {
-    const product = item;
-    let itemQty = product.quantity;
-    let productExists = false;
-    let productIndex = -1;
-    products.forEach((p, idx) => {
-      if (product._id === p._id) {
-        productExists = true;
-        productIndex = idx;
-      }
-    });
-    if (productExists) {
-      // if (itemQty === undefined) {
-      //   itemQty = 1;
-      // } else {
-      //   itemQty = product.quantity;
-      // }
-      // alert.success(`Already in cart!`);
-       console.log(`Already in cart!`);
-      console.log('add item of product cart is', product.quantity);
-      // dispatch(increaseItemQuantity(
-      //   productIndex,
-      //   product,
-      //   (itemQty = itemQty + 1)
-      // ));
-    } else {
-     dispatch(addItemToCart(product));
-      // alert.success('Successfully added to cart!');
-    }
-    // to add the product in localstorage
+  // // add and update the cart button
+  // const addAndUpdatenTheCart = item => {
+  //   let product = item;
+  //   let productExists = false;
+  //   products.forEach((p, idx) => {
+  //     if (product._id === p._id) {
+  //       productExists = true;
+  //       // assign product from redux cart
+  //       product = p;
+  //     }
+  //   });
+  //   if (productExists) {
+  //     addProductToCart(product);
+  //   } else {
+  //     addProductToCart(product);
+  //   }
+  // };
 
-   dispatch(addToCart());
-  };
+  // // add to cart function
+  // const addProductToCart = item => {
+  //   const product = item;
+  //   let itemQty = product.quantity;
+  //   let productExists = false;
+  //   let productIndex = -1;
+  //   products.forEach((p, idx) => {
+  //     if (product._id === p._id) {
+  //       productExists = true;
+  //       productIndex = idx;
+  //     }
+  //   });
+  //   if (productExists) {
+  //     // if (itemQty === undefined) {
+  //     //   itemQty = 1;
+  //     // } else {
+  //     //   itemQty = product.quantity;
+  //     // }
+  //     // alert.success(`Already in cart!`);
+  //      console.log(`Already in cart!`);
+  //     console.log('add item of product cart is', product.quantity);
+  //     // dispatch(increaseItemQuantity(
+  //     //   productIndex,
+  //     //   product,
+  //     //   (itemQty = itemQty + 1)
+  //     // ));
+  //   } else {
+  //    dispatch(addItemToCart(product));
+  //     // alert.success('Successfully added to cart!');
+  //   }
+  //   // to add the product in localstorage
+
+  //  dispatch(addToCart());
+  // };
 
 
   
@@ -121,68 +129,67 @@ const ShopLeft = () => {
         <div className="col-xl-3 col-lg-4">
           <div className="side-bar mb-md-40">
             <div className="main-box padding-20 side-shop mb-xl-20">
-              <h5 className="text-light-black">Top Products</h5>
+              <h5 className="text-light-black">Top Sponsers</h5>
               <article className="side-post pb-xl-20 mb-xl-20 u-line">
                 <div className="thumb-img">
                   <a href="blog-details">
-                    <img src="assets/img/shop/sp1.jpg" alt="thumb-img" />
+                    <img src="assets/images/1.jpg" alt="thumb-img" />
                   </a>
                 </div>
                 <div className="content-wrap">
                   <div className="entry-meta-content">
                     <h6 className="entry-title">
-                      <a href="shop-details" className="text-light-black">Brown liquid inside</a>
+                      <a href="#" className="text-light-black">Oil & Gas Development Company</a>
                     </h6>
-                    <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
-                    </div>
+                    {/* <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
+                    </div> */}
                   </div>
                 </div>
               </article>
               <article className="side-post pb-xl-20 mb-xl-20 u-line">
                 <div className="thumb-img">
                   <a href="blog-details">
-                    <img src="assets/img/shop/sp2.jpg" alt="thumb-img" />
+                    <img src="assets/images/2.png" alt="thumb-img" />
                   </a>
                 </div>
                 <div className="content-wrap">
                   <div className="entry-meta-content">
                     <h6 className="entry-title">
-                      <a href="shop-details" className="text-light-black">Brown liquid inside</a>
+                      <a href="#" className="text-light-black">Pakistan Petroleum Limited</a>
                     </h6>
-                    <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
-                    </div>
+                    {/* <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
+                    </div> */}
                   </div>
                 </div>
               </article>
               <article className="side-post pb-xl-20 mb-xl-20 u-line">
                 <div className="thumb-img">
                   <a href="blog-details">
-                    <img src="assets/img/shop/sp3.jpg" alt="thumb-img" />
+                    <img src="assets/images/3.png" alt="thumb-img" />
                   </a>
                 </div>
                 <div className="content-wrap">
                   <div className="entry-meta-content">
                     <h6 className="entry-title">
-                      <a href="shop-details" className="text-light-black">Brown liquid inside</a>
+                      <a href="#" className="text-light-black">NESPAK</a>
                     </h6>
-                    <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
-                    </div>
+                    
                   </div>
                 </div>
               </article>
               <article className="side-post">
                 <div className="thumb-img">
                   <a href="blog-details">
-                    <img src="assets/img/shop/sp4.jpg" alt="thumb-img" />
+                    <img src="assets/images/4.png" alt="thumb-img" />
                   </a>
                 </div>
                 <div className="content-wrap">
                   <div className="entry-meta-content">
                     <h6 className="entry-title">
-                      <a href="shop-details" className="text-light-black">Brown liquid inside</a>
+                      <a href="#" className="text-light-black">Telonor</a>
                     </h6>
-                    <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
-                    </div>
+                    {/* <div className="entry-tye"> <span className="text-light-green fs-18 fw-600">$50.25</span>
+                    </div> */}
                   </div>
                 </div>
               </article>
@@ -197,22 +204,23 @@ const ShopLeft = () => {
               
               <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6" key={index}>
               <div className="product-box mb-md-20">
-                <div className="product-img">
+                <div className="product-img"  style={{height: '200px'}}>
                   <a href="shop-details">
-                    <img src={IMAGE_URL + item.product_image} className="img-fluid full-width" alt="product-img" />
+                    <img src={IMAGE_URL + item.product_image} style={{height: '200px'}} className="img-fluid full-width" alt="product-img" />
                   </a>
                   {/* <div className="product-badge">
                     <div className="product-label new"> <span>Veg</span>
                     </div>
                   </div> */}
-                  <div className="button-group"> <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                    <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
+                  <div className="button-group"> 
+                  {/* <a href="wishlist" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
+                    <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a> */}
                   </div>
                   <div className="cart-hover">
-                    <Link to="#" className="btn-cart  fw-600" onClick={() => addAndUpdatenTheCart(item)} tabIndex={-1}>Add To Cart</Link>
+                    <Link to="/donation-request" className="btn-cart  fw-600" onClick={() => addAndUpdatenTheCart(item)} tabIndex={-1}>Make Request</Link>
                   </div>
                 </div>
-                <div className="product-caption text-center">
+                <div className="product-caption text-center" style={{height: '130px'}}>
                   <div className="product-status">
                     <ul className="product-raised">
                       {/* <li><strong>Distribute:</strong> 45000</li> */}
@@ -262,216 +270,8 @@ const ShopLeft = () => {
   </section>
   {/*Product-end*/}
   {/* Sucscriber */}
-  <section className="section-padding bg-theme-primary block_newsletter">
-    <div className="container">
-      <div className="row">
-        <div className="col-12">
-          <div className="section-header-left text-center">
-            <h3 className="text-light-black header-title">Grab Our Newsletter</h3>
-            <p>To receive latest offers and discounts from the shop. </p>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <div className="subscribe-wrapper">
-            <form id="subscribe-form" method="post" action="#">
-              <div className="subscribe-content">
-                <input type="text" name="subscribe-input" id="subscribe-input" defaultValue placeholder="Enter Your Email Address" className="form-control input-text required-entry validate-email" />
-                <button className="button" type="submit"><span>Subscribe</span></button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  {/* END Subscriber */}
-  {/* footer */}
-  <footer className="section-padding bg-light-theme pt-0 u-line bg-custom-primary">
-    <div className="u-line instagram-slider swiper-container">
-      <ul className="hm-list hm-instagram swiper-wrapper">
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta1.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta2.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta3.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta4.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta5.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta6.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta7.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon"> <span><i className="fab fa-instagram text-red-light" /></span>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta6.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div className="container-fluid custom-container">
-      <div className="row">
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-contact">
-            <h6 className="text-custom-white">About Us</h6>
-            <div className="logo mb-xl-20">
-              <a href="#">
-                <img src="assets/img/logo.png" className="img-fluid" alt="img" />
-              </a>
-            </div>
-            <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Get to Know Us</h6>
-            <ul>
-              <li><a href="about" className="text-white fw-500">About Us</a>
-              </li>
-              <li><a href="blog-left" className="text-white fw-500">Blog</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Socialize</a>
-              </li>
-              <li><a href="" className="text-white fw-500">Ecom</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Perks</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Let Us Help You</h6>
-            <ul>
-              <li><a href="#" className="text-white fw-500">Account Details</a>
-              </li>
-              <li><a href="order-details" className="text-white fw-500">Order History</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Find Product</a>
-              </li>
-              <li><a href="login" className="text-white fw-500">Login</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Track order</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Get to Know Us</h6>
-            <ul>
-              <li><a href="about" className="text-white fw-500">About Us</a>
-              </li>
-              <li><a href="blog-details" className="text-white fw-500">Blog</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Socialize</a>
-              </li>
-              <li><a href="" className="text-white fw-500">Ecom</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Perks</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Contact info</h6>
-            <ul className="contact-info">
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-timer" /></span>
-                  Monday - Friday: 9:00 AM - 06:00 PM</a>
-              </li>
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-mail" /></span>
-                  info@example.com</a>
-              </li>
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-call" /></span>
-                  (+348) 123 456 7890</a>
-              </li>
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-map-marker" /></span>
-                  (+348) 123 456 7890</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <div className="copyright bg-black">
-    <div className="container-fluid custom-container">
-      <div className="row">
-        <div className="col-lg-4">
-          <div className="payment-logo mb-md-20">
-            <div className="payemt-icon">
-              <img src="assets/img/footer-bottom-img.png" alt="#" />
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 text-center medewithlove align-self-center"> <a href="#" className="text-custom-white">Made with Real <i className="fas fa-heart" /> Slidesigma</a>
-        </div>
-        <div className="col-lg-4">
-          <div className="copyright-text"> <span className="text-white">© <a href="#" className="text-white">Slidesigma</a> - 2020 | All Right Reserved</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <Footer/>
+ 
   {/* footer */}
   {/* modal boxes */}
   <div className="modal" id="quick_view">

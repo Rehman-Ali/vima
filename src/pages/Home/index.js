@@ -4,7 +4,7 @@ import TopHeader from '../../layout/Header/TopHeader';
 import MainHeader from '../../layout/Header/MainHeader';
 import { useDispatch, useSelector } from "react-redux";
 import { SERVER_URL , IMAGE_URL} from "../../components/utils/config";
-import {ALL_NEWS_FAIL, ALL_NEWS_SUCCESS, ALL_COMPAIGN_SUCCESS, ALL_COMPAIGN_FAIL, ALL_DONATION_PRODUCT_SUCCESS, ALL_DONATION_PRODUCT_FAIL,ALL_OUR_PRODUCT_SUCCESS, ALL_OUR_PRODUCT_FAIL} from "../../actions/types";
+import {DONATION_PRODUCT_REQUEST, ALL_NEWS_SUCCESS, ALL_NEWS_FAIL, ALL_COMPAIGN_SUCCESS, ALL_COMPAIGN_FAIL, ALL_DONATION_PRODUCT_SUCCESS, ALL_DONATION_PRODUCT_FAIL,ALL_OUR_PRODUCT_SUCCESS, ALL_OUR_PRODUCT_FAIL} from "../../actions/types";
 import {Link} from 'react-router-dom';
 import {
   increaseItemQuantity,
@@ -12,6 +12,7 @@ import {
   addToCart,
   AddWishlistProducts
 } from '../../actions/cart';
+import Footer from '../../layout/Footer';
 const Home = () => {
 
   
@@ -127,56 +128,46 @@ const Home = () => {
 
   // add and update the cart button
   const addAndUpdatenTheCart = item => {
-    let product = item;
-    let productExists = false;
-    products.forEach((p, idx) => {
-      if (product._id === p._id) {
-        productExists = true;
-        // assign product from redux cart
-        product = p;
-      }
-    });
-    if (productExists) {
-      addProductToCart(product);
-    } else {
-      addProductToCart(product);
-    }
+   dispatch({
+     type : DONATION_PRODUCT_REQUEST,
+     payload : item
+   }) 
   };
 
-  // add to cart function
-  const addProductToCart = item => {
-    const product = item;
-    let itemQty = product.quantity;
-    let productExists = false;
-    let productIndex = -1;
-    products.forEach((p, idx) => {
-      if (product._id === p._id) {
-        productExists = true;
-        productIndex = idx;
-      }
-    });
-    if (productExists) {
-      // if (itemQty === undefined) {
-      //   itemQty = 1;
-      // } else {
-      //   itemQty = product.quantity;
-      // }
-      // alert.success(`Already in cart!`);
-       console.log(`Already in cart!`);
-      console.log('add item of product cart is', product.quantity);
-      // dispatch(increaseItemQuantity(
-      //   productIndex,
-      //   product,
-      //   (itemQty = itemQty + 1)
-      // ));
-    } else {
-     dispatch(addItemToCart(product));
-      // alert.success('Successfully added to cart!');
-    }
-    // to add the product in localstorage
+  // // add to cart function
+  // const addProductToCart = item => {
+  //   const product = item;
+  //   let itemQty = product.quantity;
+  //   let productExists = false;
+  //   let productIndex = -1;
+  //   products.forEach((p, idx) => {
+  //     if (product._id === p._id) {
+  //       productExists = true;
+  //       productIndex = idx;
+  //     }
+  //   });
+  //   if (productExists) {
+  //     // if (itemQty === undefined) {
+  //     //   itemQty = 1;
+  //     // } else {
+  //     //   itemQty = product.quantity;
+  //     // }
+  //     // alert.success(`Already in cart!`);
+  //      console.log(`Already in cart!`);
+  //     console.log('add item of product cart is', product.quantity);
+  //     // dispatch(increaseItemQuantity(
+  //     //   productIndex,
+  //     //   product,
+  //     //   (itemQty = itemQty + 1)
+  //     // ));
+  //   } else {
+  //    dispatch(addItemToCart(product));
+  //     // alert.success('Successfully added to cart!');
+  //   }
+  //   // to add the product in localstorage
 
-   dispatch(addToCart());
-  };
+  //  dispatch(addToCart());
+  // };
 
     return (
         <Fragment>
@@ -199,7 +190,7 @@ const Home = () => {
                   <h1 className="text-white fw-600">We help all people in need</h1>
                   <p className="text-white fw-400">Gray eel-catfish longnose whiptail catfish smalleye squaretail queen danio unicorn fish
                     shortnose greeneye fusilier fish silver carp nibbler sharksucker tench lookdown catfish</p>
-                  <a href="#" className="btn-solid with-line btn-big mt-20"><span>Explore <i className="fas fa-caret-right" /></span></a>
+                  <Link to="/add-donation" className="btn-solid with-line btn-big mt-20"><span>Donate Now <i className="fas fa-caret-right" /></span></Link>
                 </div>
               </div>
             </div>
@@ -218,7 +209,7 @@ const Home = () => {
                   <h1 className="text-white fw-600">Our Helping people in need</h1>
                   <p className="text-white fw-400">Gray eel-catfish longnose whiptail catfish smalleye squaretail queen danio unicorn fish
                     shortnose greeneye fusilier fish silver carp nibbler sharksucker tench lookdown catfishf</p>
-                  <a href="#" className="btn-solid with-line btn-big mt-20"><span>Shop Now <i className="fas fa-caret-right" /></span></a>
+                  <Link to="/add-donation" className="btn-solid with-line btn-big mt-20"><span>Donate Now <i className="fas fa-caret-right" /></span></Link>
                 </div>
               </div>
             </div>
@@ -237,7 +228,7 @@ const Home = () => {
                   <h1 className="text-white fw-600">Our Helping people in need</h1>
                   <p className="text-white fw-400">Gray eel-catfish longnose whiptail catfish smalleye squaretail queen danio unicorn fish
                     shortnose greeneye fusilier fish silver carp nibbler sharksucker tench lookdown catfishf</p>
-                  <a href="#" className="btn-solid with-line btn-big mt-20"><span>Learn More <i className="fas fa-caret-right" /></span></a>
+                  <Link to="/add-donation" className="btn-solid with-line btn-big mt-20"><span>Donate Now<i className="fas fa-caret-right" /></span></Link>
                 </div>
               </div>
             </div>
@@ -433,24 +424,25 @@ const Home = () => {
           </div>
         </div>
         {allDonationProduct.length > 0 ? allDonationProduct.slice(0,6).map((item, index) =>
-        <div className="col-xl-2 col-lg-4 col-md-6 col-sm-6">
-        <div className="product-box mb-md-20">
-          <div className="product-img">
+        <div className="col-xl-2 col-lg-4 col-md-6 col-sm-6" >
+        <div className="product-box mb-md-20" >
+          <div className="product-img" style={{height: '200px'}}>
             {/* <a href=""> */}
-              <img src={IMAGE_URL +item.product_image} className="img-fluid full-width" alt="product-img" />
+              <img src={IMAGE_URL +item.product_image} style={{height: '200px'}} className="img-fluid full-width" alt="product-img" />
             {/* </a> */}
             <div className="product-badge">
               {/* <div className="product-label new"> <span>Veg</span>
               </div> */}
             </div>
-            <div className="button-group"> <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-              <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
+            <div className="button-group"> 
+            {/* <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a> */}
+              {/* <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a> */}
             </div>
             <div className="cart-hover">
-              <Link href="#" className="btn-cart  fw-600" onClick={() => addAndUpdatenTheCart(item)} tabIndex={-1}>Add To Cart</Link>
+              <Link to="/donation-request" className="btn-cart  fw-600" onClick={() => addAndUpdatenTheCart(item)} tabIndex={-1}>Make Request</Link>
             </div>
           </div>
-          <div className="product-caption text-center">
+          <div className="product-caption text-center" style={{height: '130px'}}>
             <div className="product-status">
               <ul className="product-raised">
                 {/* <li><strong>Distribute:</strong> 45000</li> */}
@@ -511,7 +503,7 @@ const Home = () => {
         </div>
         <div className="col-lg-4 align-self-center">
           <div className="blob play-btn ">
-            <a href="https://www.youtube.com/watch?v=qtQgbdmIO30" className="popup-video"> <i className="fas fa-play" /></a>
+            <a href="https://www.youtube.com/watch?v=Yxql1GVPJVk" className="popup-video"> <i className="fas fa-play" /></a>
           </div>
         </div>
       </div>
@@ -603,99 +595,7 @@ const Home = () => {
     </div>
   </section>
   {/*Hot deals End*/}
-  {/*shopping section*/}
-  <section className="section-padding our-product">
-    <div className="container-fluid custom-container">
-      <div className="row">
-        <div className="col-12">
-          <div className="section-header-left">
-            <h3 className="text-light-black header-title title">Our New Arrivels</h3>
-          </div>
-        </div>
-        {allOurProduct.length > 0 ? allOurProduct.slice(0,1).map((item, index) =>
-        <div className="col-xl-3 col-lg-4 col-md-4" key={index}>
-          <div className="large-product-box  p-relative">
-            <div className="featured-product-box box-shadow">
-              <div className="featured-pro-title">
-                <h4 className="fs-22"><strong className="text-color-primary"> Deal</strong> of The Week</h4>
-              </div>
-              <div className="featured-pro-content">
-                <div className="featured-pro-text">
-        <h5><a href="#">{item.product_name}</a></h5>
-         <p>{item.product_description}</p>
-        <p className="price">Rs {item.product_price}</p>
-                </div>
-              </div>
-              <div className="featured-pro-img">
-                <img src={IMAGE_URL + item.product_image} alt="pro-img" className="img-fluid mx-auto d-block" />
-              </div>
-              <div className="featured-pro-timer">
-                <div className="countdown-box">
-                  <div className="counter-box"> <span id="cb-days" />
-                  </div>
-                  <div className="counter-box"> <span id="cb-hours" />
-                  </div>
-                  <div className="counter-box"> <span id="cb-minutes" />
-                  </div>
-                  <div className="counter-box"> <span id="cb-seconds" />
-                  </div>
-                </div>
-              </div>
-              <div className="featured-pro-bottom">
-                {/* <ul>
-                  <li>Raised: <strong>150000 </strong></li>
-                  <li>Goal: <strong>200000</strong> </li>
-                </ul> */}
-              </div>
-            </div>
-          </div>
-        </div>
-        ) : null}
-        
-        <div className="col-xl-9 col-lg-8 col-md-8">
-          <div className="row">
-          {allOurProduct.length > 0 ? allOurProduct.map((item, index) =>
-       
-            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-              <div className="product-box mb-md-20">
-                <div className="product-img">
-                  <Link to="/#">
-                    <img src={IMAGE_URL + item.product_image} className="img-fluid full-width" alt="product-img" />
-                  </Link>
-                  <div className="product-badge">
-          <div className="product-label high"> <span>{item.product_category}</span>
-                    </div>
-                  </div>
-                  <div className="button-group"> <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                    <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                  </div>
-                  <div className="cart-hover">
-                    <Link to="/#" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</Link>
-                  </div>
-                </div>
-                <div className="product-caption text-center">
-                  <div className="product-status">
-                    {/* <ul className="product-raised">
-                      <li><strong>Distribute:</strong> 45000</li>
-                      <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li>
-                    </ul> */}
-                    <div className="progress">
-                      <div className="progress-bar progress-bar-color" style={{width: '100%'}} />
-                    </div>
-                  </div>
-                  <h6 className="product-title fw-500 mt-10"><Link href="/#" className="text-color-primary">{item.product_name}</Link></h6>
-                  <div className="product-money mt-10"> <span className="text-color-primary fw-600">Rs {item.product_price}</span>
-                    {/* <span className="text-price">$250.00</span> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
-             </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
   {/*shopping section end*/}
   {/* advertisement banner*/}
   <section className="section-padding advertisement-banner-1 center-bg-effect">
@@ -733,19 +633,19 @@ const Home = () => {
             <h3 className="text-light-black header-title title">Our Donation Campaigns</h3>
           </div>
         </div>
-        {allCompaign.length > 0 ? allCompaign.map((item, index) => <div className="col-xl-4 col-lg-6 col-md-6">
-          <div className="sa-causes-single sa-causes-single-2" key={index}>
+        {allCompaign.length > 0 ? allCompaign.slice(0,3).map((item, index) => <div className="col-xl-4 col-lg-6 col-md-6">
+          <div className="sa-causes-single sa-causes-single-2" key={index} >
             <div className="causes-details-wrap">
               <div className="causes-details">
              <h5><a href="#">{item.category}</a></h5>
                 <p>{item.title}</p>
                 <div className="entry-thumb mtmb-spacing">
-                  <img src="assets/img/donation/article1.jpg" alt="img" className="img-fluid full-width" />
+                  <img src={IMAGE_URL + item.image} style={{height:'200px'}} alt="img" className="img-fluid full-width" />
                   <div className="dontaion-category"><a href="#">{item.category}</a></div>
                 </div>
                 <div className="cause-progress">
-                  <div className="progress-bar" role="progressbar" aria-valuenow={17} aria-valuemin={0} aria-valuemax={100} style={{width: '17%'}}>
-                    <span>17%</span>
+                  <div className="progress-bar" role="progressbar" aria-valuenow={100} aria-valuemin={0} aria-valuemax={100} style={{width: '100%'}}>
+                    {/* <span>17%</span> */}
                   </div>
                 </div>
                 <div className="causes-amount">
@@ -761,7 +661,7 @@ const Home = () => {
               </div>
             </div>
             <div className="btn-area text-center">
-              <a className="btn-donation text-btn" href="#">donate now</a>
+              <Link className="btn-donation text-btn" to="/add-donation">donate now</Link>
             </div>
           </div>
         </div>
@@ -865,97 +765,6 @@ const Home = () => {
       </div>
     </div>
   </section>
-  {/*shopping section*/}
-  <section className="section-padding our-product">
-    <div className="container-fluid custom-container">
-      <div className="row">
-        <div className="col-12">
-          <div className="section-header-left">
-            <h3 className="text-light-black header-title title"> Our Featured Products</h3>
-          </div>
-        </div>
-        <div className="col-lg-9 col-md-8">
-          <div className="row">
-          {allOurProduct.length > 0 ? allOurProduct.map((item, index) =>
-       
-            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-              <div className="product-box mb-md-20">
-                <div className="product-img">
-                  <a href="#">
-                    <img src={IMAGE_URL + item.product_image} className="img-fluid full-width" alt="product-img" />
-                  </a>
-                  <div className="product-badge">
-          <div className="product-label high"> <span>{item.product_category}</span>
-                    </div>
-                  </div>
-                  <div className="button-group"> <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title data-original-title="Add to wishlist" tabIndex={-1}><i className="pe-7s-like" /></a>
-                    <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title data-original-title="Quick View"><i className="pe-7s-search" /></span></a>
-                  </div>
-                  <div className="cart-hover">
-                    <a href="#" className="btn-cart  fw-600" tabIndex={-1}>Add To Cart</a>
-                  </div>
-                </div>
-                <div className="product-caption text-center">
-                  <div className="product-status">
-                    <ul className="product-raised">
-                      {/* <li><strong>Distribute:</strong> 45000</li>
-                      <li><strong>Goal:</strong><span className="text-highlight"> 70000</span></li> */}
-                    </ul>
-                    <div className="progress">
-                      <div className="progress-bar progress-bar-color" style={{width: '100%'}} />
-                    </div>
-                  </div>
-                    <h6 className="product-title fw-500 mt-10"><a href="#" className="text-color-primary">{item.product_name}</a></h6>
-                    <div className="product-money mt-10"> <span className="text-color-primary fw-600">Rs {item.product_price}</span>
-                    {/* <span className="text-price">$250.00</span> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ): null}
-       </div>
-        </div>
-        {allOurProduct.length > 0 ? allOurProduct.slice(0,1).map((item, index) =>
-        <div className="col-lg-3 col-md-4">
-          <div className="large-product-box  p-relative">
-            <div className="featured-product-box box-shadow">
-              <div className="featured-pro-title">
-                <h4 className="fs-22"><strong className="text-color-primary"> Deal</strong> of The Week</h4>
-              </div>
-              <div className="featured-pro-content">
-                <div className="featured-pro-text">
-                 <h5><a href="#"> {item.product_name}</a></h5>
-                   <p>{item.product_description}</p>
-        <p className="price">Rs {item.product_price}</p>
-                </div>
-              </div>
-              <div className="featured-pro-img">
-                <img src={IMAGE_URL+ item.product_image} alt="pro-img" className="img-fluid mx-auto d-block" />
-              </div>
-              <div className="featured-pro-timer">
-                <div className="countdown-box">
-                  <div className="counter-box"> <span id="sb-days" />
-                  </div>
-                  <div className="counter-box"> <span id="sb-hours" />
-                  </div>
-                  <div className="counter-box"> <span id="sb-minutes" />
-                  </div>
-                  <div className="counter-box"> <span id="sb-seconds" />
-                  </div>
-                </div>
-              </div>
-              <div className="featured-pro-bottom">
-                {/* <ul>
-                  <li>Raised: <strong>150000 </strong></li>
-                  <li>Goal: <strong>200000</strong> </li>
-                </ul> */}
-              </div>
-            </div>
-          </div>
-        </div> ) : null}
-      </div>
-    </div>
-  </section>
   {/*shopping end section*/}
   {/*Testimonail*/}
   <section className="feedback-area-two section-padding bg-custom-primary">
@@ -998,14 +807,14 @@ const Home = () => {
         <div className="col-12">
           <div className="section-header-left title">
             <h3 className="text-light-black header-title">Our Latest News</h3>
-            <span className="fs-14"><a href="#.html">See All</a></span>
+            <span className="fs-14"><Link to="/blog-right">See All</Link></span>
           </div>
         </div>
-        {allnews.length > 0 ? allnews.map((item, index) => 
+        {allnews.length > 0 ? allnews.slice(0,4).map((item, index) => 
          <div className="col-xl-3 col-lg-3 col-md-6" key={index}>
          <article className="blog-item blog-item-box">
            <div className="blog-item-img">
-             <img className="blog-img" src="assets/img/blog/blog1.jpg" alt="img" />
+             <img className="blog-img" src={IMAGE_URL + item.image} alt="img" />
              <ul className="blog-item-badge">
                {/* <li><a href="#">Water</a> </li> */}
         <li><a href="#">{item.title}</a></li>
@@ -1081,217 +890,14 @@ const Home = () => {
   </section>
   {/* END/BLOG Section */}
   {/* Sucscriber */}
-  <section className="section-padding block_newsletter">
-    <div className="container">
-      <div className="row">
-        <div className="col-12">
-          <div className="section-header-left text-center">
-            <h3 className="text-light-black header-title">Grab Our Newsletter</h3>
-            <p>To receive latest offers and discounts from the shop. </p>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <div className="subscribe-wrapper">
-            <form id="subscribe-form" method="post" action="#">
-              <div className="subscribe-content">
-                <input type="text" name="subscribe-input" id="subscribe-input" defaultValue placeholder="Enter Your Email Address" className="form-control input-text required-entry validate-email" />
-                <button className="button" type="submit"><span>Subscribe</span></button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+ 
   {/* END Subscriber */}
   {/* footer */}
-  <footer className="section-padding bg-light-theme pt-0 u-line bg-custom-primary">
-    <div className="u-line instagram-slider swiper-container">
-      <ul className="hm-list hm-instagram swiper-wrapper">
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta1.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta2.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta3.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta4.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta5.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta6.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta7.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon"> <span><i className="fab fa-instagram text-red-light" /></span>
-          </div>
-        </li>
-        <li className="swiper-slide">
-          <a href="#">
-            <img src="assets/img/insta/insta6.jpg" alt="instagram" />
-          </a>
-          <div className="insta-icon">
-            <div><i className="fab fa-instagram text-red-light" />
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div className="container-fluid custom-container">
-      <div className="row">
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-contact">
-            <h6 className="text-custom-white">About Us</h6>
-            <div className="logo mb-xl-20">
-              <a href="#">
-                <img src="assets/img/logo.png" className="img-fluid" alt="img" />
-              </a>
-            </div>
-            <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Get to Know Us</h6>
-            <ul>
-              <li><a href="about.html" className="text-white fw-500">About Us</a>
-              </li>
-              <li><a href="blog-left.html" className="text-white fw-500">Blog</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Socialize</a>
-              </li>
-              <li><a href="index.html" className="text-white fw-500">Ecom</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Perks</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Let Us Help You</h6>
-            <ul>
-              <li><a href="#" className="text-white fw-500">Account Details</a>
-              </li>
-              <li><a href="order-details.html" className="text-white fw-500">Order History</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Find Product</a>
-              </li>
-              <li><a href="login.html" className="text-white fw-500">Login</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Track order</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Get to Know Us</h6>
-            <ul>
-              <li><a href="about.html" className="text-white fw-500">About Us</a>
-              </li>
-              <li><a href="blog-details.html" className="text-white fw-500">Blog</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Socialize</a>
-              </li>
-              <li><a href="index.html" className="text-white fw-500">Ecom</a>
-              </li>
-              <li><a href="#" className="text-white fw-500">Perks</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="col-xl col-lg-4 col-md-4 col-sm-6">
-          <div className="footer-links">
-            <h6 className="text-custom-white">Contact info</h6>
-            <ul className="contact-info">
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-timer" /></span>
-                  Monday - Friday: 9:00 AM - 06:00 PM</a>
-              </li>
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-mail" /></span>
-                  info@example.com</a>
-              </li>
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-call" /></span>
-                  (+348) 123 456 7890</a>
-              </li>
-              <li>
-                <a href="#" className="text-white"> <span><i className="pe-7s-map-marker" /></span>
-                  (+348) 123 456 7890</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <div className="copyright bg-black">
-    <div className="container-fluid custom-container">
-      <div className="row">
-        <div className="col-lg-4">
-          <div className="payment-logo mb-md-20">
-            <div className="payemt-icon">
-              <img src="assets/img/footer-bottom-img.png" alt="#" />
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 text-center medewithlove align-self-center"> <a href="#" className="text-custom-white">Made with Real <i className="fas fa-heart" /> Slidesigma</a>
-        </div>
-        <div className="col-lg-4">
-          <div className="copyright-text"> <span className="text-white">© <a href="#" className="text-white">Slidesigma</a> - 2020 | All Right Reserved</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Footer/>
+
   {/* footer */}
+
+
   <div className="modal" id="quick_view">
     <div className="modal-dialog modal-lg modal-dialog-centered">
       <div className="modal-content">
